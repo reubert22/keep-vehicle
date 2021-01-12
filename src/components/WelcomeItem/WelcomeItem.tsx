@@ -8,6 +8,7 @@ type WelcomeItemPropsType = {
     uri: string;
     key: string;
     title: string;
+    mainTitle: string;
     description: string;
     indicatorColor: string;
   };
@@ -24,6 +25,16 @@ export const WelcomeItem: FC<WelcomeItemPropsType> = ({
   const scale = scrollX.interpolate({
     inputRange,
     outputRange: [0, 1, 0],
+  });
+
+  const translateXTitle = scrollX.interpolate({
+    inputRange,
+    outputRange: [width * 0.2, 0, -width * 0.2],
+  });
+
+  const translateXDescription = scrollX.interpolate({
+    inputRange,
+    outputRange: [width * 0.6, 0, -width * 0.6],
   });
 
   const opacity = scrollX.interpolate({
@@ -50,10 +61,22 @@ export const WelcomeItem: FC<WelcomeItemPropsType> = ({
         />
       </View>
       <View style={styles.containerTexts}>
-        <Animated.Text style={[styles.title, { opacity }]}>
+        <Animated.Text
+          style={[
+            styles.title,
+            { opacity, transform: [{ translateX: translateXTitle }] },
+          ]}
+        >
           {item.title}
         </Animated.Text>
-        <Text style={styles.description}>{item.description}</Text>
+        <Animated.Text
+          style={[
+            styles.description,
+            { opacity, transform: [{ translateX: translateXDescription }] },
+          ]}
+        >
+          {item.description}
+        </Animated.Text>
       </View>
     </View>
   );
@@ -82,7 +105,9 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 22,
-    fontWeight: "400",
+    textTransform: "uppercase",
+    fontWeight: "bold",
+    color: "#595959",
     letterSpacing: 1.5,
     marginBottom: 10,
   },
@@ -91,6 +116,5 @@ const styles = StyleSheet.create({
     fontWeight: "400",
     letterSpacing: 1.5,
     color: "#a8a7a7",
-    textAlign: "justify",
   },
 });
