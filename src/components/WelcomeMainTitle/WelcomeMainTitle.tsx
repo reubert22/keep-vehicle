@@ -43,9 +43,9 @@ const styles = StyleSheet.create({
   titleContainer: {
     position: "absolute",
     top: 10,
-    left: 10,
     overflow: "hidden",
     height: TITLE_HEIGHT,
+    alignItems: "center",
   },
   mainTitle: {
     fontSize: TITLE_HEIGHT,
