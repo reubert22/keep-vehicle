@@ -2,10 +2,9 @@ import React, { FC } from "react";
 import { StyleSheet, View, Dimensions, Animated } from "react-native";
 
 const { width } = Dimensions.get("window");
-
 const CIRCLE_SIZE = width * 0.6;
 
-type WelcomeBackgroundCirclePropType = {
+type BackgroundCirclePropType = {
   scrollX: Animated.Value;
   data: Array<{
     uri: string;
@@ -17,7 +16,7 @@ type WelcomeBackgroundCirclePropType = {
   }>;
 };
 
-export const WelcomeBackgroundCircle: FC<WelcomeBackgroundCirclePropType> = ({
+export const BackgroundCircle: FC<BackgroundCirclePropType> = ({
   scrollX,
   data,
 }) => (

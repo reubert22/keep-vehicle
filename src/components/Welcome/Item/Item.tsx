@@ -1,9 +1,10 @@
 import React, { FC } from "react";
-import { StyleSheet, Text, View, Dimensions, Animated } from "react-native";
+import { StyleSheet, View, Dimensions, Animated } from "react-native";
+import { InitButton } from "../InitButton/InitButton";
 
 const { width, height } = Dimensions.get("window");
 
-type WelcomeItemPropsType = {
+type ItemPropsType = {
   item: {
     uri: string;
     key: string;
@@ -16,11 +17,7 @@ type WelcomeItemPropsType = {
   scrollX: Animated.Value;
 };
 
-export const WelcomeItem: FC<WelcomeItemPropsType> = ({
-  item,
-  index,
-  scrollX,
-}) => {
+export const Item: FC<ItemPropsType> = ({ item, index, scrollX }) => {
   const inputRange = [(index - 1) * width, index * width, (index + 1) * width];
   const scale = scrollX.interpolate({
     inputRange,
@@ -32,13 +29,13 @@ export const WelcomeItem: FC<WelcomeItemPropsType> = ({
     outputRange: [width * 0.2, 0, -width * 0.2],
   });
 
-  const translateXDescription = scrollX.interpolate({
+  const translateXDesc = scrollX.interpolate({
     inputRange,
     outputRange: [width * 0.6, 0, -width * 0.6],
   });
 
   const opacity = scrollX.interpolate({
-    inputRange: [(index - 0.3) * width, index * width, (index + 0.3) * width],
+    inputRange: [(index - 0.5) * width, index * width, (index + 0.5) * width],
     outputRange: [0, 1, 0],
   });
 
@@ -72,12 +69,13 @@ export const WelcomeItem: FC<WelcomeItemPropsType> = ({
         <Animated.Text
           style={[
             styles.description,
-            { opacity, transform: [{ translateX: translateXDescription }] },
+            { opacity, transform: [{ translateX: translateXDesc }] },
           ]}
         >
           {item.description}
         </Animated.Text>
       </View>
+      {index === 3 && <InitButton index={index} scrollX={scrollX} />}
     </View>
   );
 };
@@ -86,7 +84,6 @@ const styles = StyleSheet.create({
   containerItem: {
     width,
     alignItems: "center",
-    justifyContent: "space-evenly",
   },
   containerImage: {
     width,

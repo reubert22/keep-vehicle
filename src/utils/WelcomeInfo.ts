@@ -4,7 +4,7 @@ export const welcomeInfo = [
       "https://lh3.googleusercontent.com/proxy/xBcaEm9l4POk_ZAWPHIgxoUFOdwPSjVHPo6M3AMtwL4FUUD44GhwmSytpW0s70YM96yutCuQ3Bze56s8comGLj2t-8DV79E7mTySRgZTR99JBswK3wPGe4_yTW3V",
     key: "first",
     mainTitle: " ",
-    title: "Seja bem-vindx!",
+    title: "Seja bem-vindo!",
     description:
       "Proporcionamos à você um maior controle sobre seus automóveis.",
     indicatorColor: "#34bff1",

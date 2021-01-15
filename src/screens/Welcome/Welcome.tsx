@@ -1,30 +1,29 @@
-import React from "react";
-import { StyleSheet, View, Dimensions, Animated, Text } from "react-native";
+import React, { useRef } from "react";
+import { StyleSheet, View, Dimensions, Animated } from "react-native";
 
-import { Indicator } from "../../components/Indicator/Indicator";
-import { WelcomeItem } from "../../components/WelcomeItem/WelcomeItem";
+import { Indicator } from "../../components/Welcome/Indicator/Indicator";
+import { Item } from "../../components/Welcome/Item/Item";
 import { welcomeInfo } from "../../utils/WelcomeInfo";
-import { WelcomeMainTitle } from "../../components/WelcomeMainTitle/WelcomeMainTitle";
-import { WelcomeBackgroundCircle } from "../../components/WelcomeBackgroundCircle/WelcomeBackgroundCircle";
+import { MainTitle } from "../../components/Welcome/MainTitle/MainTitle";
+import { BackgroundCircle } from "../../components/Welcome/BackgroundCircle/BackgroundCircle";
 
 const { width, height } = Dimensions.get("window");
 
 export const Welcome = () => {
-  const scrollX = React.useRef(new Animated.Value(0)).current;
+  const scrollX = useRef(new Animated.Value(0)).current;
 
   return (
     <View style={styles.container}>
-      <WelcomeBackgroundCircle scrollX={scrollX} data={welcomeInfo} />
+      <BackgroundCircle scrollX={scrollX} data={welcomeInfo} />
       <Animated.FlatList
         keyExtractor={(item: string) => item.key}
         pagingEnabled
         showsHorizontalScrollIndicator={false}
         horizontal
         data={welcomeInfo}
-        renderItem={({ item, index }) => {
-          console.log(index);
-          return <WelcomeItem item={item} index={index} scrollX={scrollX} />;
-        }}
+        renderItem={({ item, index }) => (
+          <Item item={item} index={index} scrollX={scrollX} />
+        )}
         onScroll={Animated.event(
           [{ nativeEvent: { contentOffset: { x: scrollX } } }],
           { useNativeDriver: true }
@@ -32,7 +31,7 @@ export const Welcome = () => {
         scrollEventThrottle={16}
       />
       <Indicator scrollX={scrollX} data={welcomeInfo} />
-      <WelcomeMainTitle scrollX={scrollX} data={welcomeInfo} />
+      <MainTitle scrollX={scrollX} data={welcomeInfo} />
     </View>
   );
 };

@@ -45,7 +45,7 @@ export const Indicator: FC<IndicatorPropsType> = ({ scrollX, data }) => {
 
 const styles = StyleSheet.create({
   indicatorContainer: {
-    height: 80,
+    height: 50,
     flexDirection: "row",
     bottom: 0,
   },

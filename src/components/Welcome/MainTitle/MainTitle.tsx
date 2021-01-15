@@ -2,8 +2,9 @@ import React, { FC } from "react";
 import { StyleSheet, View, Dimensions, Animated, Text } from "react-native";
 
 const { width } = Dimensions.get("window");
+const TITLE_HEIGHT = 40;
 
-type WelcomeMainTitlePropType = {
+type MainTitlePropType = {
   scrollX: Animated.Value;
   data: Array<{
     uri: string;
@@ -15,11 +16,7 @@ type WelcomeMainTitlePropType = {
   }>;
 };
 
-const TITLE_HEIGHT = 40;
-export const WelcomeMainTitle: FC<WelcomeMainTitlePropType> = ({
-  scrollX,
-  data,
-}) => {
+export const MainTitle: FC<MainTitlePropType> = ({ scrollX, data }) => {
   const inputRange = [-width, 0, width];
   const translateY = scrollX.interpolate({
     inputRange,
@@ -52,6 +49,7 @@ const styles = StyleSheet.create({
     lineHeight: TITLE_HEIGHT,
     fontWeight: "bold",
     textTransform: "uppercase",
+    color: "#595959",
     letterSpacing: 2,
   },
 });
