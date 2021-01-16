@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, FC } from "react";
 import { StyleSheet, View, Dimensions, Animated } from "react-native";
 
 import { Indicator } from "../../components/Welcome/Indicator/Indicator";
@@ -9,7 +9,11 @@ import { BackgroundCircle } from "../../components/Welcome/BackgroundCircle/Back
 
 const { width, height } = Dimensions.get("window");
 
-export const Welcome = () => {
+type WelcomePropType = {
+  onPress: () => void;
+};
+
+export const Welcome: FC<WelcomePropType> = ({ onPress }) => {
   const scrollX = useRef(new Animated.Value(0)).current;
 
   return (
@@ -22,7 +26,7 @@ export const Welcome = () => {
         horizontal
         data={welcomeInfo}
         renderItem={({ item, index }) => (
-          <Item item={item} index={index} scrollX={scrollX} />
+          <Item onPress={onPress} item={item} index={index} scrollX={scrollX} />
         )}
         onScroll={Animated.event(
           [{ nativeEvent: { contentOffset: { x: scrollX } } }],
@@ -42,7 +46,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: "#FFF",
+    backgroundColor: "#131C21",
     alignItems: "center",
     justifyContent: "center",
     height,

@@ -1,7 +1,7 @@
 export const welcomeInfo = [
   {
     uri:
-      "https://lh3.googleusercontent.com/proxy/xBcaEm9l4POk_ZAWPHIgxoUFOdwPSjVHPo6M3AMtwL4FUUD44GhwmSytpW0s70YM96yutCuQ3Bze56s8comGLj2t-8DV79E7mTySRgZTR99JBswK3wPGe4_yTW3V",
+      "https://lh3.googleusercontent.com/proxy/OeONyuEOvlPilVh79ESlssxSfK4NV7iBBhWdi-sqQ6HeIOj-roIO2vlmaRnbZ15wIZB_eAmXuWC0m3mJ52KUCjpbqKw3t1Z6rmVGcYFt5woQGTIMQy277jvMOtcx",
     key: "first",
     mainTitle: " ",
     title: "Seja bem-vindo!",

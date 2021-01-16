@@ -5,6 +5,7 @@ import { InitButton } from "../InitButton/InitButton";
 const { width, height } = Dimensions.get("window");
 
 type ItemPropsType = {
+  onPress: () => void;
   item: {
     uri: string;
     key: string;
@@ -17,7 +18,7 @@ type ItemPropsType = {
   scrollX: Animated.Value;
 };
 
-export const Item: FC<ItemPropsType> = ({ item, index, scrollX }) => {
+export const Item: FC<ItemPropsType> = ({ onPress, item, index, scrollX }) => {
   const inputRange = [(index - 1) * width, index * width, (index + 1) * width];
   const scale = scrollX.interpolate({
     inputRange,
@@ -75,7 +76,9 @@ export const Item: FC<ItemPropsType> = ({ item, index, scrollX }) => {
           {item.description}
         </Animated.Text>
       </View>
-      {index === 3 && <InitButton index={index} scrollX={scrollX} />}
+      {index === 3 && (
+        <InitButton onPress={onPress} index={index} scrollX={scrollX} />
+      )}
     </View>
   );
 };

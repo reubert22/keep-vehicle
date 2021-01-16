@@ -1,29 +1,36 @@
+import React, { useState } from "react";
 import { StatusBar } from "expo-status-bar";
-import React from "react";
 import { StyleSheet, View } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { Welcome } from "./src/screens/Welcome/Welcome";
+import { NavigationContainer } from "@react-navigation/native";
+import { MainNavigation } from "./src/screens/MainNavigation";
 
 export default function App() {
+  // temp (Remove that and replace method)
+  const [show, setShow] = useState(true);
+
   return (
     <SafeAreaProvider>
       <SafeAreaView style={styles.safeAreaView}>
-        <View style={styles.container}>
+        <NavigationContainer>
           <StatusBar style="auto" />
-          <Welcome />
-        </View>
+          {show ? (
+            <Welcome
+              onPress={() => {
+                setShow(!show);
+              }}
+            />
+          ) : (
+            <MainNavigation />
+          )}
+        </NavigationContainer>
       </SafeAreaView>
     </SafeAreaProvider>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
   safeAreaView: {
     flex: 1,
   },

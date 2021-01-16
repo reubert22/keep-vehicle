@@ -10,11 +10,16 @@ import {
 const { width } = Dimensions.get("window");
 
 type InitButtonPropsType = {
+  onPress: () => void;
   index: number;
   scrollX: Animated.Value;
 };
 
-export const InitButton: FC<InitButtonPropsType> = ({ index, scrollX }) => {
+export const InitButton: FC<InitButtonPropsType> = ({
+  onPress,
+  index,
+  scrollX,
+}) => {
   const inputRange = [(index - 1) * width, index * width, (index + 1) * width];
 
   const translateX = scrollX.interpolate({
@@ -31,7 +36,7 @@ export const InitButton: FC<InitButtonPropsType> = ({ index, scrollX }) => {
     <Animated.View
       style={[styles.buttonContainer, { opacity, transform: [{ translateX }] }]}
     >
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity onPress={onPress} style={styles.button}>
         <Text style={styles.textButton}>Iniciar...</Text>
       </TouchableOpacity>
     </Animated.View>
