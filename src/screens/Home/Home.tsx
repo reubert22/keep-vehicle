@@ -1,6 +1,8 @@
 import React from "react";
-import { View, StyleSheet, Text, Dimensions } from "react-native";
+import { View, StyleSheet, Text, Dimensions, Button } from "react-native";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import { useNavigation } from "@react-navigation/native";
+import { clearData } from "../../utils/AsyncStorage";
 
 const { width, height } = Dimensions.get("window");
 
@@ -22,6 +24,7 @@ export const One: React.FC = () => (
       justifyContent: "center",
     }}
   >
+    <Button title="Clean up" onPress={clearData} />
     <Text>One example Screen</Text>
   </View>
 );

@@ -1,26 +1,36 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { Welcome } from "./src/screens/Welcome/Welcome";
 import { NavigationContainer } from "@react-navigation/native";
 import { MainNavigation } from "./src/screens/MainNavigation";
+import { AsyncStorageKeys, storeData, getData } from "./src/utils/AsyncStorage";
 
 export default function App() {
-  // temp (Remove that and replace method)
-  const [show, setShow] = useState(true);
+  const [shouldShowWelcome, setShouldShowWelcome] = useState(true);
+
+  const getDataAsync = async () => {
+    const shouldShow = await getData(AsyncStorageKeys.WELCOME);
+    setShouldShowWelcome(shouldShow ? shouldShow.show : true);
+  };
+
+  useEffect(() => {
+    getDataAsync();
+  }, [shouldShowWelcome]);
+
+  const handleDismissWelcome = () => {
+    storeData(AsyncStorageKeys.WELCOME, { show: false });
+    getDataAsync();
+  };
 
   return (
     <SafeAreaProvider>
       <SafeAreaView style={styles.safeAreaView}>
         <NavigationContainer>
           <StatusBar style="auto" />
-          {show ? (
-            <Welcome
-              onPress={() => {
-                setShow(!show);
-              }}
-            />
+          {shouldShowWelcome ? (
+            <Welcome onPress={handleDismissWelcome} />
           ) : (
             <MainNavigation />
           )}

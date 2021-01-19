@@ -1,7 +1,6 @@
 export const welcomeInfo = [
   {
-    uri:
-      "https://lh3.googleusercontent.com/proxy/OeONyuEOvlPilVh79ESlssxSfK4NV7iBBhWdi-sqQ6HeIOj-roIO2vlmaRnbZ15wIZB_eAmXuWC0m3mJ52KUCjpbqKw3t1Z6rmVGcYFt5woQGTIMQy277jvMOtcx",
+    uri: "https://pngimg.com/uploads/mercedes/mercedes_PNG80135.png",
     key: "first",
     mainTitle: " ",
     title: "Seja bem-vindo!",
@@ -10,7 +9,7 @@ export const welcomeInfo = [
     indicatorColor: "#34bff1",
   },
   {
-    uri: "https://assets.stickpng.com/images/580b585b2edbce24c47b2d02.png",
+    uri: "https://pngimg.com/uploads/motorcycle/motorcycle_PNG3156.png",
     key: "second",
     mainTitle: " ",
     title: "Não deixe para última hora!",
