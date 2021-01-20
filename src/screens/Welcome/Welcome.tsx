@@ -1,11 +1,11 @@
 import React, { useRef, FC } from "react";
 import { StyleSheet, View, Dimensions, Animated } from "react-native";
 
+import { BackgroundCircle } from "../../components/Welcome/BackgroundCircle/BackgroundCircle";
 import { Indicator } from "../../components/Welcome/Indicator/Indicator";
+import { MainTitle } from "../../components/Welcome/MainTitle/MainTitle";
 import { Item } from "../../components/Welcome/Item/Item";
 import { welcomeInfo } from "../../utils/WelcomeInfo";
-import { MainTitle } from "../../components/Welcome/MainTitle/MainTitle";
-import { BackgroundCircle } from "../../components/Welcome/BackgroundCircle/BackgroundCircle";
 
 const { width, height } = Dimensions.get("window");
 

@@ -2,7 +2,6 @@ import React, { FC } from "react";
 import { StyleSheet, View, Dimensions, Animated } from "react-native";
 
 const { width } = Dimensions.get("window");
-
 const IndicatorWidth = 25;
 const IndicatorHeight = 25;
 
