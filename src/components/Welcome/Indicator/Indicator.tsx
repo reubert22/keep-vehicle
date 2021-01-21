@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     borderRadius: IndicatorWidth / 2,
     height: IndicatorHeight,
     marginHorizontal: 5,
-    borderColor: "#DCDCDC",
+    borderColor: "rgba(241, 241, 242, 0.63)",
     alignItems: "center",
     justifyContent: "center",
   },

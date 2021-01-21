@@ -37,7 +37,7 @@ export const InitButton: FC<InitButtonPropsType> = ({
       style={[styles.buttonContainer, { opacity, transform: [{ translateX }] }]}
     >
       <TouchableOpacity onPress={onPress} style={styles.button}>
-        <Text style={styles.textButton}>Iniciar...</Text>
+        <Text style={styles.textButton}>Iniciar</Text>
       </TouchableOpacity>
     </Animated.View>
   );
@@ -60,6 +60,8 @@ const styles = StyleSheet.create({
   },
   textButton: {
     fontSize: 17,
+    letterSpacing: 0.5,
+    fontWeight: "400",
     color: "#FFF",
   },
 });

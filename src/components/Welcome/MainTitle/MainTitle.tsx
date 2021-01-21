@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     lineHeight: TITLE_HEIGHT,
     fontWeight: "bold",
     textTransform: "uppercase",
-    color: "#595959",
+    color: "rgba(241, 241, 242, 0.92)",
     letterSpacing: 2,
   },
 });

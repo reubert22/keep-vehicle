@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
     fontSize: 22,
     textTransform: "uppercase",
     fontWeight: "bold",
-    color: "#595959",
+    color: "rgba(241, 241, 242, 0.92)",
     letterSpacing: 1.5,
     marginBottom: 10,
   },
@@ -115,6 +115,6 @@ const styles = StyleSheet.create({
     fontSize: 19,
     fontWeight: "400",
     letterSpacing: 1.5,
-    color: "#a8a7a7",
+    color: "rgba(241, 241, 242, 0.63)",
   },
 });
