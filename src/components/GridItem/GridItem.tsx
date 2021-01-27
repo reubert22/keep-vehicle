@@ -6,11 +6,28 @@ import {
   Dimensions,
   Image,
   TouchableHighlight,
+  Button,
 } from "react-native";
 
 const { width } = Dimensions.get("window");
 
-export const GridItem = () => (
+export type GridItemTypeProps = {
+  id: number;
+  title: string;
+  img: string;
+  moreDetails: string;
+  notification?: string;
+  addVehicleNotification: (id: number) => void;
+};
+
+export const GridItem = ({
+  img,
+  title,
+  moreDetails,
+  notification,
+  addVehicleNotification,
+  id,
+}: GridItemTypeProps) => (
   <TouchableHighlight>
     <View style={styles.containerGridItem}>
       <View style={styles.containerContentImg}>
@@ -19,7 +36,7 @@ export const GridItem = () => (
             style={styles.img}
             resizeMode="contain"
             source={{
-              uri: "https://pngimg.com/uploads/mercedes/mercedes_PNG80135.png",
+              uri: img,
             }}
           />
         </View>
@@ -27,13 +44,39 @@ export const GridItem = () => (
       <View style={styles.containerInfo}>
         <View>
           <Text numberOfLines={1} style={styles.infoTitle}>
-            Fiat Palio
+            {title}
           </Text>
         </View>
-        <View>
+        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
           <Text numberOfLines={1} style={styles.moreInfo}>
-            2010/2011 - Gasolina
+            {moreDetails}
           </Text>
+          {notification ? (
+            <Text
+              numberOfLines={1}
+              style={{
+                fontSize: 12,
+                color: "rgba(241, 241, 242, 0.92)",
+              }}
+            >
+              {notification} days
+            </Text>
+          ) : (
+            <TouchableHighlight
+              style={{
+                borderColor: "#34bff1",
+                borderWidth: 1,
+                height: 30,
+                width: 30,
+                borderRadius: 15,
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+              onPress={() => addVehicleNotification(id)}
+            >
+              <Text style={{ color: "white" }}>+</Text>
+            </TouchableHighlight>
+          )}
         </View>
       </View>
     </View>

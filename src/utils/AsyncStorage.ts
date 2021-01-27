@@ -20,8 +20,10 @@ export const getData = async (key: string) => {
 
 export const clearData = async () => {
   await AsyncStorage.removeItem(AsyncStorageKeys.WELCOME);
+  await AsyncStorage.removeItem(AsyncStorageKeys.VEHICLE_LIST);
 };
 
 export const AsyncStorageKeys = {
   WELCOME: "@welcome",
+  VEHICLE_LIST: "@vehicle-list",
 };

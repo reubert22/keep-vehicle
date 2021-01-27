@@ -38,3 +38,26 @@ export const welcomeInfo = [
     indicatorColor: "#34a5f1",
   },
 ];
+
+export const vehiclesInfo = [
+  {
+    id: 1,
+    img:
+      "https://www.toyota.com.br/wp-content/themes/toyota/ciclo-toyota/carros/corolla_gli_my20_040_carPage_mobile.png",
+    title: "Toyota Corolla",
+    moreDetails: "2021 - gasolina",
+  },
+  {
+    id: 2,
+    img:
+      "https://www.toyota.com.br/wp-content/themes/toyota/ciclo-toyota/carros/etios-seda_x_mt_040_carPage_mobile.png",
+    title: "Toyota Etios",
+    moreDetails: "2021 - gasolina",
+  },
+  {
+    id: 3,
+    img: "https://pngimg.com/uploads/mercedes/mercedes_PNG80135.png",
+    title: "Mercedes Benz C180",
+    moreDetails: "2021 - gasolina",
+  },
+];
