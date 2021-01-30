@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 import { View, StyleSheet, Text, Button } from "react-native";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { clearData } from "../../utils/AsyncStorage";
@@ -6,7 +6,7 @@ import { List } from "../List/List";
 
 const Stack = createMaterialTopTabNavigator();
 
-export const Home: React.FC = () => (
+export const Home: FC = () => (
   <Stack.Navigator
     initialRouteName="One"
     tabBarOptions={{
@@ -23,7 +23,7 @@ export const Home: React.FC = () => (
   </Stack.Navigator>
 );
 
-export const Two: React.FC = () => (
+export const Two: FC = () => (
   <View
     style={{
       flex: 1,
@@ -36,7 +36,7 @@ export const Two: React.FC = () => (
   </View>
 );
 
-export const Three: React.FC = () => (
+export const Three: FC = () => (
   <View
     style={{
       flex: 1,

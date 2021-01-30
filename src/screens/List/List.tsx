@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, FC } from "react";
 import * as Notifications from "expo-notifications";
 import {
   View,
@@ -23,7 +23,7 @@ Notifications.setNotificationHandler({
   }),
 });
 
-export const List: React.FC = () => {
+export const List: FC = () => {
   // const [expoPushToken, setExpoPushToken] = useState("");
   // const [notification, setNotification] = useState(false);
   const [notifications, setNotificationsList] = useState<NotificationRequest[]>(
@@ -44,7 +44,6 @@ export const List: React.FC = () => {
   };
 
   useEffect(() => {
-    console.log("getting vehicles");
     getVehicles();
   }, [loading]);
 
@@ -95,6 +94,7 @@ export const List: React.FC = () => {
         body: "Não se esqueça de verificar o óleo do veículo.",
         data: { data: "goes here" },
       },
+      // days / 2
       trigger: { seconds: 86400, channelId: "keep-vehicle-notifications" },
       //   trigger: { seconds: 180, channelId: "keep-vehicle-notifications" },
     });
@@ -104,7 +104,6 @@ export const List: React.FC = () => {
   async function get() {
     const response = await Notifications.getAllScheduledNotificationsAsync();
     setNotificationsList(response);
-    console.log(response);
   }
 
   async function cancel(id: string) {

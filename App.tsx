@@ -32,7 +32,6 @@ export default function App() {
   });
 
   useEffect(() => {
-    console.log(shouldShowWelcome);
     if (!shouldShowWelcome) {
       hideSplashScreen();
     } else {

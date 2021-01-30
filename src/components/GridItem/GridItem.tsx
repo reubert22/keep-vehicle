@@ -47,34 +47,20 @@ export const GridItem = ({
             {title}
           </Text>
         </View>
-        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+        <View style={styles.containerNotificationOnList}>
           <Text numberOfLines={1} style={styles.moreInfo}>
             {moreDetails}
           </Text>
           {notification ? (
-            <Text
-              numberOfLines={1}
-              style={{
-                fontSize: 12,
-                color: "rgba(241, 241, 242, 0.92)",
-              }}
-            >
+            <Text numberOfLines={1} style={styles.containerNotificationInfo}>
               {notification} days
             </Text>
           ) : (
             <TouchableHighlight
-              style={{
-                borderColor: "#34bff1",
-                borderWidth: 1,
-                height: 30,
-                width: 30,
-                borderRadius: 15,
-                alignItems: "center",
-                justifyContent: "center",
-              }}
+              style={styles.notificationAddBtn}
               onPress={() => addVehicleNotification(id)}
             >
-              <Text style={{ color: "white" }}>+</Text>
+              <Text style={styles.plusText}>+</Text>
             </TouchableHighlight>
           )}
         </View>
@@ -132,4 +118,22 @@ const styles = StyleSheet.create({
     lineHeight: 20,
     color: "rgba(241, 241, 242, 0.63)",
   },
+  containerNotificationOnList: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  containerNotificationInfo: {
+    fontSize: 12,
+    color: "rgba(241, 241, 242, 0.92)",
+  },
+  notificationAddBtn: {
+    borderColor: "#34bff1",
+    borderWidth: 1,
+    height: 30,
+    width: 30,
+    borderRadius: 15,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  plusText: { color: "#FFF" },
 });
