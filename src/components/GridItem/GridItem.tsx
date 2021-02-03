@@ -43,18 +43,25 @@ export const GridItem = ({
       </View>
       <View style={styles.containerInfo}>
         <View>
-          <Text numberOfLines={1} style={styles.infoTitle}>
-            {title}
-          </Text>
-        </View>
-        <View style={styles.containerNotificationOnList}>
-          <Text numberOfLines={1} style={styles.moreInfo}>
-            {moreDetails}
-          </Text>
-          {notification ? (
-            <Text numberOfLines={1} style={styles.containerNotificationInfo}>
-              {notification} days
+          <View>
+            <Text numberOfLines={1} style={styles.infoTitle}>
+              {title}
             </Text>
+          </View>
+          <View style={styles.containerNotificationOnList}>
+            <Text numberOfLines={1} style={styles.moreInfo}>
+              {moreDetails}
+            </Text>
+          </View>
+        </View>
+        <View style={styles.containerNotificationBtns}>
+          {!notification ? (
+            <TouchableHighlight
+              style={[styles.notificationAddBtn, styles.notificationEditBtn]}
+              onPress={() => addVehicleNotification(id)}
+            >
+              <Text style={styles.plusText}>...</Text>
+            </TouchableHighlight>
           ) : (
             <TouchableHighlight
               style={styles.notificationAddBtn}
@@ -100,8 +107,9 @@ const styles = StyleSheet.create({
     width: "80%",
     borderBottomWidth: 0.5,
     borderBottomColor: "#30383d",
-    flexDirection: "column",
-    justifyContent: "center",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
   },
   infoTitle: {
     fontSize: 16,
@@ -122,9 +130,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
   },
-  containerNotificationInfo: {
-    fontSize: 12,
-    color: "rgba(241, 241, 242, 0.92)",
+  containerNotificationBtns: {
+    width: "10%",
+    alignItems: "center",
+    justifyContent: "center",
   },
   notificationAddBtn: {
     borderColor: "#34bff1",
@@ -134,6 +143,9 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     alignItems: "center",
     justifyContent: "center",
+  },
+  notificationEditBtn: {
+    justifyContent: "flex-start",
   },
   plusText: { color: "#FFF" },
 });
