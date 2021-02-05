@@ -6,8 +6,6 @@ import {
   Button,
   Text,
   ActivityIndicator,
-  Dimensions,
-  TextInput,
 } from "react-native";
 import { NotificationRequest } from "expo-notifications";
 import { GridItem } from "../../components/GridItem/GridItem";
@@ -16,196 +14,15 @@ import { getData, AsyncStorageKeys, storeData } from "../../utils/AsyncStorage";
 import {
   scheduleNotification,
   getAllScheduleNotifications,
-  cancelAllScheduleNotifications,
   editNotificationDaysToRepeat,
   cancelScheduledNotification,
 } from "../../utils/Notification";
 import BottomSheet from "reanimated-bottom-sheet";
-import { TouchableNativeFeedback } from "react-native-gesture-handler";
-
-const { width } = Dimensions.get("window");
-
-type VehicleType = {
-  id: number;
-  title: string;
-  img: string;
-  moreDetails: string;
-  notification?: string;
-  days?: number;
-};
-
-const Header = () => (
-  <View style={{ height: 30, alignItems: "center", justifyContent: "center" }}>
-    <View
-      style={{
-        width: 30,
-        backgroundColor: "#cecece",
-        height: 5,
-        borderRadius: 100,
-      }}
-    />
-  </View>
-);
-
-const Content = ({
-  vehicle,
-  onPressSaveOrEdit,
-  onPressDelete,
-  ntfDays = 0,
-}: {
-  vehicle: VehicleType | null;
-  onPressSaveOrEdit: (item: VehicleType, days: number) => void;
-  onPressDelete: (item: VehicleType) => void;
-  ntfDays?: number;
-}) => {
-  const [days, setDays] = useState(ntfDays);
-
-  useEffect(() => {
-    setDays(ntfDays);
-  }, [ntfDays]);
-
-  const addDay = () => setDays(days + 1);
-  const removeDay = () => setDays(days === 0 ? days : days - 1);
-
-  return (
-    vehicle && (
-      <View
-        style={{
-          backgroundColor: "#1f292e",
-          padding: 20,
-          height: 450,
-          width,
-        }}
-      >
-        <View
-          style={{
-            width: "100%",
-            flexDirection: "row",
-          }}
-        >
-          <View style={{ width: "80%" }}>
-            <Text style={{ fontSize: 22, color: "#34bff1" }}>
-              {ntfDays !== 0 ? "Editar notificação" : "Adicionar notificação"}
-            </Text>
-            <Text
-              style={{
-                color: "rgba(241, 241, 242, 0.92)",
-                fontSize: 16,
-                marginTop: 5,
-              }}
-            >
-              {vehicle.title}
-            </Text>
-          </View>
-          {!!ntfDays && (
-            <View style={{ width: "20%" }}>
-              <TouchableNativeFeedback
-                style={{
-                  borderRadius: 10,
-                  backgroundColor: "#34bff1",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  height: 30,
-                }}
-                disabled={days === 0}
-                onPress={() => onPressDelete(vehicle)}
-              >
-                <Text style={{ fontSize: 14, color: "#2c414d" }}>Excluir</Text>
-              </TouchableNativeFeedback>
-            </View>
-          )}
-        </View>
-        <View
-          style={{
-            marginTop: 35,
-          }}
-        >
-          <Text style={{ color: "rgba(241, 241, 242, 0.92)" }}>
-            Escolha o tempo em dias para repetirmos a notificação:
-          </Text>
-          <View
-            style={{
-              marginTop: 10,
-              borderRadius: 15,
-              alignItems: "center",
-              height: 40,
-              flexDirection: "row",
-            }}
-          >
-            <TouchableNativeFeedback
-              style={{
-                borderTopLeftRadius: 10,
-                borderBottomLeftRadius: 10,
-                backgroundColor: "#2c414d",
-                width: 64,
-                alignItems: "center",
-                justifyContent: "center",
-                height: "100%",
-              }}
-              disabled={days === 0}
-              onPress={removeDay}
-            >
-              <Text style={{ fontSize: 22, color: "#34bff1" }}>-</Text>
-            </TouchableNativeFeedback>
-            <View
-              style={{
-                width: "60%",
-                alignItems: "center",
-                justifyContent: "center",
-                borderWidth: 1,
-                borderColor: "#2c414d",
-                height: "100%",
-              }}
-            >
-              <TextInput
-                keyboardType="numeric"
-                style={{
-                  height: 40,
-                  width: "100%",
-                  textAlign: "center",
-                  color: "#FFF",
-                }}
-                onChangeText={(text) => {
-                  setDays(Number(text));
-                }}
-                value={days.toString()}
-              />
-            </View>
-            <TouchableNativeFeedback
-              style={{
-                borderTopRightRadius: 10,
-                borderBottomRightRadius: 10,
-                backgroundColor: "#2c414d",
-                width: 64,
-                alignItems: "center",
-                justifyContent: "center",
-                height: "100%",
-              }}
-              onPress={addDay}
-            >
-              <Text style={{ fontSize: 22, color: "#34bff1" }}>+</Text>
-            </TouchableNativeFeedback>
-          </View>
-        </View>
-        <View style={{ marginTop: 25, height: 40 }}>
-          <TouchableNativeFeedback
-            style={{
-              borderRadius: 10,
-              backgroundColor: "#2c414d",
-              alignItems: "center",
-              justifyContent: "center",
-              height: "100%",
-            }}
-            disabled={days === 0}
-            onPress={() => onPressSaveOrEdit(vehicle, days)}
-          >
-            <Text style={{ fontSize: 16, color: "#34bff1" }}>Salvar</Text>
-          </TouchableNativeFeedback>
-        </View>
-      </View>
-    )
-  );
-};
+import { Header } from "../../components/BottomSheet/Header/Header";
+import { AddEditNotification } from "../../components/AddEditNotification/AddEditNotification";
+import { VehicleType } from "../../utils/SharedTypes";
+import { ScrollView } from "react-native-gesture-handler";
+import { Colors } from "../../utils/Colors";
 
 export const List: FC = () => {
   const sheetRef = React.useRef(null);
@@ -217,6 +34,22 @@ export const List: FC = () => {
     null
   );
   const [loading, setLoading] = useState(false);
+
+  //@ts-ignore
+  const handleOpenBottomSheet = () => sheetRef?.current?.snapTo(320);
+  //@ts-ignore
+  const handleCloseBottomSheet = () => sheetRef?.current?.snapTo(0);
+
+  const handleCloseBottomSheetAndClearSelectedVehicle = () => {
+    setSelectedVehicle(null);
+    handleCloseBottomSheet();
+  };
+
+  useEffect(() => {
+    if (selectedVehicle) {
+      handleOpenBottomSheet();
+    }
+  }, [selectedVehicle]);
 
   const getVehicles = async () => {
     const response = await getData(AsyncStorageKeys.VEHICLE_LIST);
@@ -230,17 +63,15 @@ export const List: FC = () => {
     storeData(AsyncStorageKeys.VEHICLE_LIST, vehiclesInfo);
   };
 
+  const get = async () => {
+    const response = await getAllScheduleNotifications();
+    setNotificationsList(response);
+  };
+
   useEffect(() => {
     getVehicles();
     get();
   }, [loading]);
-
-  useEffect(() => {
-    if (selectedVehicle) {
-      //@ts-ignore
-      sheetRef?.current?.snapTo(320);
-    }
-  }, [selectedVehicle]);
 
   const handleAddNotificationForVehicle = (
     vehicle: VehicleType,
@@ -282,9 +113,7 @@ export const List: FC = () => {
       handleRemoveNotificationFromVehicle(vehicle.id);
 
       get();
-      setSelectedVehicle(null);
-      //@ts-ignore
-      sheetRef?.current?.snapTo(0);
+      handleCloseBottomSheetAndClearSelectedVehicle();
     }
   };
 
@@ -311,9 +140,7 @@ export const List: FC = () => {
       handleAddNotificationForVehicle(vehicle, identifier, days);
       get();
 
-      setSelectedVehicle(null);
-      //@ts-ignore
-      sheetRef?.current?.snapTo(0);
+      handleCloseBottomSheetAndClearSelectedVehicle();
     }
   };
 
@@ -340,50 +167,45 @@ export const List: FC = () => {
       handleAddNotificationForVehicle(vehicle, identifier, days);
       get();
 
-      setSelectedVehicle(null);
-      //@ts-ignore
-      sheetRef?.current?.snapTo(0);
+      handleCloseBottomSheetAndClearSelectedVehicle();
     }
-  };
-
-  const get = async () => {
-    const response = await getAllScheduleNotifications();
-    setNotificationsList(response);
   };
 
   return (
     <View style={styles.container}>
-      <Button title="Add vehicles mock to async" onPress={addVehiclesMock} />
-      {vehicles.map((item: VehicleType) => (
-        <GridItem
-          key={`vehicle-${item.title}`}
-          {...item}
-          onPress={() => {
-            setSelectedVehicle(item);
-          }}
-        />
-      ))}
-      {loading && <ActivityIndicator size="large" color="#00ff00" />}
-
-      <View style={{ marginTop: 50 }}>
-        <Text style={{ color: "#FFF", textAlign: "center" }}>
-          Notificacoes na fila
-        </Text>
-        {notifications.map((item) => (
-          <View key={item.identifier}>
-            <Text style={{ color: "#FFF" }}>
-              {item.content.title} - Repete a cada {item.content.data.repeatsIn}{" "}
-              dia(s)
-            </Text>
-          </View>
+      <ScrollView>
+        <Button title="Add vehicles mock to async" onPress={addVehiclesMock} />
+        {vehicles.map((item: VehicleType) => (
+          <GridItem
+            key={`vehicle-${item.title}`}
+            {...item}
+            onPress={() => {
+              setSelectedVehicle(item);
+            }}
+          />
         ))}
-      </View>
+        {loading && <ActivityIndicator size="large" color="#00ff00" />}
+
+        <View style={{ marginTop: 50 }}>
+          <Text style={{ color: Colors.white, textAlign: "center" }}>
+            Notificacoes na fila
+          </Text>
+          {notifications.map((item) => (
+            <View key={item.identifier}>
+              <Text style={{ color: Colors.white }}>
+                {item.content.title} - Repete a cada{" "}
+                {item.content.data.repeatsIn} dia(s)
+              </Text>
+            </View>
+          ))}
+        </View>
+      </ScrollView>
       <BottomSheet
         ref={sheetRef}
         snapPoints={[0, 320]}
         borderRadius={10}
         renderContent={() => (
-          <Content
+          <AddEditNotification
             vehicle={selectedVehicle}
             onPressSaveOrEdit={(item, days) =>
               selectedVehicle?.days
@@ -397,6 +219,21 @@ export const List: FC = () => {
         onCloseEnd={() => setSelectedVehicle(null)}
         renderHeader={() => <Header />}
       />
+      {/* <View
+        style={{
+          backgroundColor: Colors.tertiaryBlue,
+          height: 60,
+          width: 60,
+          position: "absolute",
+          bottom: 20,
+          right: 20,
+          alignItems: "center",
+          justifyContent: "center",
+          borderRadius: 30,
+        }}
+      >
+        <Text style={{ color: Colors.white, fontSize: 42 }}>+</Text>
+      </View> */}
     </View>
   );
 };
@@ -404,6 +241,6 @@ export const List: FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#131c21",
+    backgroundColor: Colors.primaryBlue,
   },
 });

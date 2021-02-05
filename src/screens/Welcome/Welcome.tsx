@@ -6,6 +6,7 @@ import { Indicator } from "../../components/Welcome/Indicator/Indicator";
 import { MainTitle } from "../../components/Welcome/MainTitle/MainTitle";
 import { Item } from "../../components/Welcome/Item/Item";
 import { welcomeInfo } from "../../utils/WelcomeInfo";
+import { Colors } from "../../utils/Colors";
 
 const { width, height } = Dimensions.get("window");
 
@@ -46,7 +47,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: "#131C21",
+    backgroundColor: Colors.primaryBlue,
     alignItems: "center",
     justifyContent: "center",
     height,

@@ -6,6 +6,7 @@ import {
   Animated,
   TouchableOpacity,
 } from "react-native";
+import { Colors } from "../../../utils/Colors";
 
 const { width } = Dimensions.get("window");
 
@@ -52,7 +53,7 @@ const styles = StyleSheet.create({
   },
   button: {
     borderRadius: 25,
-    backgroundColor: "#34bff1",
+    backgroundColor: Colors.tertiaryBlue,
     height: "100%",
     width: "100%",
     alignItems: "center",
@@ -62,6 +63,6 @@ const styles = StyleSheet.create({
     fontSize: 17,
     letterSpacing: 0.5,
     fontWeight: "400",
-    color: "#FFF",
+    color: Colors.white,
   },
 });

@@ -1,6 +1,7 @@
 import React, { FC } from "react";
 import { StyleSheet, View, Dimensions, Animated } from "react-native";
 import { InitButton } from "../InitButton/InitButton";
+import { Colors } from "../../../utils/Colors";
 
 const { width, height } = Dimensions.get("window");
 
@@ -107,7 +108,7 @@ const styles = StyleSheet.create({
     fontSize: 22,
     textTransform: "uppercase",
     fontWeight: "bold",
-    color: "rgba(241, 241, 242, 0.92)",
+    color: Colors.primaryWhite,
     letterSpacing: 1.5,
     marginBottom: 10,
   },
@@ -115,6 +116,6 @@ const styles = StyleSheet.create({
     fontSize: 19,
     fontWeight: "400",
     letterSpacing: 1.5,
-    color: "rgba(241, 241, 242, 0.63)",
+    color: Colors.secondaryWhite,
   },
 });

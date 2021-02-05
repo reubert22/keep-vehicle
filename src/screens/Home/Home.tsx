@@ -3,6 +3,7 @@ import { View, StyleSheet, Text, Button } from "react-native";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { clearData } from "../../utils/AsyncStorage";
 import { List } from "../List/List";
+import { Colors } from "../../utils/Colors";
 
 const Stack = createMaterialTopTabNavigator();
 
@@ -10,8 +11,8 @@ export const Home: FC = () => (
   <Stack.Navigator
     initialRouteName="One"
     tabBarOptions={{
-      activeTintColor: "#34bff1",
-      inactiveTintColor: "rgba(241, 241, 242, 0.63)",
+      activeTintColor: Colors.tertiaryBlue,
+      inactiveTintColor: Colors.secondaryWhite,
       indicatorStyle: styles.tabBarIndicatorStyle,
       labelStyle: styles.tabBarLabelStyle,
       style: styles.tabBarStyle,
@@ -50,7 +51,7 @@ export const Three: FC = () => (
 
 const styles = StyleSheet.create({
   tabBarIndicatorStyle: {
-    backgroundColor: "#34bff1",
+    backgroundColor: Colors.tertiaryBlue,
   },
   tabBarLabelStyle: {
     fontSize: 12,
@@ -58,7 +59,7 @@ const styles = StyleSheet.create({
     letterSpacing: 0.5,
   },
   tabBarStyle: {
-    backgroundColor: "#1f292e",
+    backgroundColor: Colors.secondaryBlue,
     height: 50,
   },
 });

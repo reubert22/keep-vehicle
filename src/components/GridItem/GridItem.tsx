@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 import {
   View,
   Text,
@@ -6,8 +6,8 @@ import {
   Dimensions,
   Image,
   TouchableHighlight,
-  Button,
 } from "react-native";
+import { Colors } from "../../utils/Colors";
 
 const { width } = Dimensions.get("window");
 
@@ -21,14 +21,14 @@ type GridItemTypeProps = {
   onPress: (id: number) => void;
 };
 
-export const GridItem = ({
+export const GridItem: FC<GridItemTypeProps> = ({
   img,
   title,
   moreDetails,
   notification,
   onPress,
   id,
-}: GridItemTypeProps) => (
+}) => (
   <TouchableHighlight>
     <View style={styles.containerGridItem}>
       <View style={styles.containerContentImg}>
@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
   contentImg: {
     height: 49,
     width: 49,
-    backgroundColor: "#131c21",
+    backgroundColor: Colors.primaryBlue,
     borderRadius: 24.5,
   },
   img: {
@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
     paddingRight: 15,
     width: "80%",
     borderBottomWidth: 0.5,
-    borderBottomColor: "#30383d",
+    borderBottomColor: Colors.grey,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
@@ -119,13 +119,13 @@ const styles = StyleSheet.create({
     position: "relative",
     flexGrow: 1,
     overflow: "hidden",
-    color: "rgba(241, 241, 242, 0.92)",
+    color: Colors.primaryWhite,
   },
   moreInfo: {
     fontSize: 14,
     fontWeight: "400",
     lineHeight: 20,
-    color: "rgba(241, 241, 242, 0.63)",
+    color: Colors.secondaryWhite,
   },
   containerNotificationOnList: {
     flexDirection: "row",
@@ -137,7 +137,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   notificationAddBtn: {
-    borderColor: "#34bff1",
+    borderColor: Colors.tertiaryBlue,
     borderWidth: 1,
     height: 30,
     width: 30,
@@ -148,5 +148,5 @@ const styles = StyleSheet.create({
   notificationEditBtn: {
     justifyContent: "flex-start",
   },
-  plusText: { color: "#FFF" },
+  plusText: { color: Colors.white },
 });

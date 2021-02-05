@@ -1,5 +1,6 @@
 import React, { FC } from "react";
 import { StyleSheet, View, Dimensions, Animated } from "react-native";
+import { Colors } from "../../../utils/Colors";
 
 const { width } = Dimensions.get("window");
 const IndicatorWidth = 25;
@@ -55,7 +56,7 @@ const styles = StyleSheet.create({
     borderRadius: IndicatorWidth / 2,
     height: IndicatorHeight,
     marginHorizontal: 5,
-    borderColor: "rgba(241, 241, 242, 0.63)",
+    borderColor: Colors.secondaryWhite,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -65,7 +66,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     marginHorizontal: 5,
-    borderColor: "#a8a7a7",
+    borderColor: Colors.grey,
   },
   indicator: {
     width: 10,

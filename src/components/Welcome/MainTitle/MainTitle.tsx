@@ -1,5 +1,6 @@
 import React, { FC } from "react";
 import { StyleSheet, View, Dimensions, Animated, Text } from "react-native";
+import { Colors } from "../../../utils/Colors";
 
 const { width } = Dimensions.get("window");
 const TITLE_HEIGHT = 40;
@@ -49,7 +50,7 @@ const styles = StyleSheet.create({
     lineHeight: TITLE_HEIGHT,
     fontWeight: "bold",
     textTransform: "uppercase",
-    color: "rgba(241, 241, 242, 0.92)",
+    color: Colors.primaryWhite,
     letterSpacing: 2,
   },
 });
