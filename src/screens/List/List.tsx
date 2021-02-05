@@ -1,4 +1,5 @@
 import React, { useState, useEffect, FC } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   View,
   StyleSheet,
@@ -9,21 +10,29 @@ import {
   TextInput,
 } from "react-native";
 import { NotificationRequest } from "expo-notifications";
-import {
-  GridItem,
-  GridItemTypeProps,
-} from "../../components/GridItem/GridItem";
+import { GridItem } from "../../components/GridItem/GridItem";
 import { vehiclesInfo } from "../../utils/WelcomeInfo";
 import { getData, AsyncStorageKeys, storeData } from "../../utils/AsyncStorage";
 import {
   scheduleNotification,
   getAllScheduleNotifications,
   cancelAllScheduleNotifications,
+  editNotificationDaysToRepeat,
+  cancelScheduledNotification,
 } from "../../utils/Notification";
 import BottomSheet from "reanimated-bottom-sheet";
 import { TouchableNativeFeedback } from "react-native-gesture-handler";
 
 const { width } = Dimensions.get("window");
+
+type VehicleType = {
+  id: number;
+  title: string;
+  img: string;
+  moreDetails: string;
+  notification?: string;
+  days?: number;
+};
 
 const Header = () => (
   <View style={{ height: 30, alignItems: "center", justifyContent: "center" }}>
@@ -40,15 +49,24 @@ const Header = () => (
 
 const Content = ({
   vehicle,
-  onPressSave,
+  onPressSaveOrEdit,
+  onPressDelete,
+  ntfDays = 0,
 }: {
-  vehicle: GridItemTypeProps | null;
-  onPressSave: (item: GridItemTypeProps, days: number) => void;
+  vehicle: VehicleType | null;
+  onPressSaveOrEdit: (item: VehicleType, days: number) => void;
+  onPressDelete: (item: VehicleType) => void;
+  ntfDays?: number;
 }) => {
-  const [days, setDays] = useState(0);
+  const [days, setDays] = useState(ntfDays);
+
+  useEffect(() => {
+    setDays(ntfDays);
+  }, [ntfDays]);
 
   const addDay = () => setDays(days + 1);
   const removeDay = () => setDays(days === 0 ? days : days - 1);
+
   return (
     vehicle && (
       <View
@@ -59,18 +77,44 @@ const Content = ({
           width,
         }}
       >
-        <Text style={{ fontSize: 22, color: "#34bff1" }}>
-          Adicionar notificação
-        </Text>
-        <Text
+        <View
           style={{
-            color: "rgba(241, 241, 242, 0.92)",
-            fontSize: 16,
-            marginTop: 5,
+            width: "100%",
+            flexDirection: "row",
           }}
         >
-          {vehicle.title}
-        </Text>
+          <View style={{ width: "80%" }}>
+            <Text style={{ fontSize: 22, color: "#34bff1" }}>
+              {ntfDays !== 0 ? "Editar notificação" : "Adicionar notificação"}
+            </Text>
+            <Text
+              style={{
+                color: "rgba(241, 241, 242, 0.92)",
+                fontSize: 16,
+                marginTop: 5,
+              }}
+            >
+              {vehicle.title}
+            </Text>
+          </View>
+          {!!ntfDays && (
+            <View style={{ width: "20%" }}>
+              <TouchableNativeFeedback
+                style={{
+                  borderRadius: 10,
+                  backgroundColor: "#34bff1",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  height: 30,
+                }}
+                disabled={days === 0}
+                onPress={() => onPressDelete(vehicle)}
+              >
+                <Text style={{ fontSize: 14, color: "#2c414d" }}>Excluir</Text>
+              </TouchableNativeFeedback>
+            </View>
+          )}
+        </View>
         <View
           style={{
             marginTop: 35,
@@ -152,7 +196,8 @@ const Content = ({
               justifyContent: "center",
               height: "100%",
             }}
-            onPress={() => onPressSave(vehicle, days)}
+            disabled={days === 0}
+            onPress={() => onPressSaveOrEdit(vehicle, days)}
           >
             <Text style={{ fontSize: 16, color: "#34bff1" }}>Salvar</Text>
           </TouchableNativeFeedback>
@@ -167,11 +212,10 @@ export const List: FC = () => {
   const [notifications, setNotificationsList] = useState<NotificationRequest[]>(
     []
   );
-  const [vehicles, setVehicles] = useState<GridItemTypeProps[]>([]);
-  const [
-    selectedVehicle,
-    setSelectedVehicle,
-  ] = useState<GridItemTypeProps | null>(null);
+  const [vehicles, setVehicles] = useState<VehicleType[]>([]);
+  const [selectedVehicle, setSelectedVehicle] = useState<VehicleType | null>(
+    null
+  );
   const [loading, setLoading] = useState(false);
 
   const getVehicles = async () => {
@@ -182,6 +226,7 @@ export const List: FC = () => {
 
   const addVehiclesMock = async () => {
     setLoading(true);
+    AsyncStorage.removeItem(AsyncStorageKeys.VEHICLE_LIST);
     storeData(AsyncStorageKeys.VEHICLE_LIST, vehiclesInfo);
   };
 
@@ -198,12 +243,14 @@ export const List: FC = () => {
   }, [selectedVehicle]);
 
   const handleAddNotificationForVehicle = (
-    vehicle: GridItemTypeProps,
-    notification: string
+    vehicle: VehicleType,
+    notification: string,
+    days: number
   ) => {
-    const newVehicles = vehicles.map((item: GridItemTypeProps) => {
+    const newVehicles = vehicles.map((item: VehicleType) => {
       if (vehicle.id === item.id) {
         return Object.assign(item, {
+          days,
           notification,
         });
       }
@@ -213,8 +260,65 @@ export const List: FC = () => {
     storeData(AsyncStorageKeys.VEHICLE_LIST, newVehicles);
   };
 
+  const handleRemoveNotificationFromVehicle = (id: number) => {
+    const newVehicles = vehicles.map((item: VehicleType) => {
+      if (id === item.id) {
+        return {
+          id: item.id,
+          title: item.title,
+          img: item.img,
+          moreDetails: item.moreDetails,
+        };
+      }
+      return item;
+    });
+    setVehicles(newVehicles);
+    storeData(AsyncStorageKeys.VEHICLE_LIST, newVehicles);
+  };
+
+  const deleteNotification = async (vehicle: VehicleType) => {
+    if (vehicle.notification) {
+      await cancelScheduledNotification(vehicle.notification);
+      handleRemoveNotificationFromVehicle(vehicle.id);
+
+      get();
+      setSelectedVehicle(null);
+      //@ts-ignore
+      sheetRef?.current?.snapTo(0);
+    }
+  };
+
+  const editScheduledNotification = async (
+    vehicle: VehicleType,
+    days: number
+  ) => {
+    if (vehicle.notification) {
+      const identifier = await editNotificationDaysToRepeat(
+        vehicle.notification,
+        {
+          content: {
+            title: `🛠️ ${vehicle.title} Alerta de manutenção periódica`,
+            body: "Não se esqueça de verificar o óleo do veículo.",
+            data: { id: vehicle.id, repeatsIn: days },
+          },
+          trigger: {
+            seconds: 86400 * days,
+            repeats: true,
+            channelId: "keep-vehicle-notifications",
+          },
+        }
+      );
+      handleAddNotificationForVehicle(vehicle, identifier, days);
+      get();
+
+      setSelectedVehicle(null);
+      //@ts-ignore
+      sheetRef?.current?.snapTo(0);
+    }
+  };
+
   const schedulePushNotification = async (
-    vehicle: GridItemTypeProps,
+    vehicle: VehicleType,
     days: number
   ) => {
     const response = await getAllScheduleNotifications();
@@ -225,7 +329,7 @@ export const List: FC = () => {
         content: {
           title: `🛠️ ${vehicle.title} Alerta de manutenção periódica`,
           body: "Não se esqueça de verificar o óleo do veículo.",
-          data: { id: vehicle.id },
+          data: { id: vehicle.id, repeatsIn: days },
         },
         trigger: {
           seconds: 86400 * days,
@@ -233,8 +337,12 @@ export const List: FC = () => {
           channelId: "keep-vehicle-notifications",
         },
       });
-      handleAddNotificationForVehicle(vehicle, identifier);
+      handleAddNotificationForVehicle(vehicle, identifier, days);
       get();
+
+      setSelectedVehicle(null);
+      //@ts-ignore
+      sheetRef?.current?.snapTo(0);
     }
   };
 
@@ -243,28 +351,30 @@ export const List: FC = () => {
     setNotificationsList(response);
   };
 
-  async function cancelAll() {
-    await cancelAllScheduleNotifications();
-  }
-
   return (
     <View style={styles.container}>
       <Button title="Add vehicles mock to async" onPress={addVehiclesMock} />
-      <Button title="Cancel ntf" onPress={cancelAll} />
-      {vehicles.map((item: GridItemTypeProps) => (
+      {vehicles.map((item: VehicleType) => (
         <GridItem
           key={`vehicle-${item.title}`}
           {...item}
-          addVehicleNotification={() => setSelectedVehicle(item)} //schedulePushNotification(item)}
+          onPress={() => {
+            setSelectedVehicle(item);
+          }}
         />
       ))}
       {loading && <ActivityIndicator size="large" color="#00ff00" />}
 
       <View style={{ marginTop: 50 }}>
-        <Text>Notificacoes na fila</Text>
+        <Text style={{ color: "#FFF", textAlign: "center" }}>
+          Notificacoes na fila
+        </Text>
         {notifications.map((item) => (
           <View key={item.identifier}>
-            <Text>{item.content.title}</Text>
+            <Text style={{ color: "#FFF" }}>
+              {item.content.title} - Repete a cada {item.content.data.repeatsIn}{" "}
+              dia(s)
+            </Text>
           </View>
         ))}
       </View>
@@ -275,12 +385,17 @@ export const List: FC = () => {
         renderContent={() => (
           <Content
             vehicle={selectedVehicle}
-            onPressSave={(item, days) => schedulePushNotification(item, days)}
+            onPressSaveOrEdit={(item, days) =>
+              selectedVehicle?.days
+                ? editScheduledNotification(item, days)
+                : schedulePushNotification(item, days)
+            }
+            onPressDelete={(item) => deleteNotification(item)}
+            ntfDays={selectedVehicle?.days ? selectedVehicle.days : 0}
           />
         )}
         onCloseEnd={() => setSelectedVehicle(null)}
         renderHeader={() => <Header />}
-        enabledContentGestureInteraction={false}
       />
     </View>
   );

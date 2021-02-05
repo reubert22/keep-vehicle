@@ -11,13 +11,14 @@ import {
 
 const { width } = Dimensions.get("window");
 
-export type GridItemTypeProps = {
+type GridItemTypeProps = {
   id: number;
   title: string;
   img: string;
   moreDetails: string;
   notification?: string;
-  addVehicleNotification: (id: number) => void;
+  days?: number;
+  onPress: (id: number) => void;
 };
 
 export const GridItem = ({
@@ -25,7 +26,7 @@ export const GridItem = ({
   title,
   moreDetails,
   notification,
-  addVehicleNotification,
+  onPress,
   id,
 }: GridItemTypeProps) => (
   <TouchableHighlight>
@@ -55,17 +56,17 @@ export const GridItem = ({
           </View>
         </View>
         <View style={styles.containerNotificationBtns}>
-          {!notification ? (
+          {notification ? (
             <TouchableHighlight
               style={[styles.notificationAddBtn, styles.notificationEditBtn]}
-              onPress={() => addVehicleNotification(id)}
+              onPress={() => onPress(id)}
             >
               <Text style={styles.plusText}>...</Text>
             </TouchableHighlight>
           ) : (
             <TouchableHighlight
               style={styles.notificationAddBtn}
-              onPress={() => addVehicleNotification(id)}
+              onPress={() => onPress(id)}
             >
               <Text style={styles.plusText}>+</Text>
             </TouchableHighlight>

@@ -12,7 +12,7 @@ type ScheduleNotificationType = {
   content: {
     title: string;
     body: string;
-    data: { id: number };
+    data: { id: number; repeatsIn: number };
   };
   trigger: {
     seconds: number;
@@ -30,10 +30,13 @@ export const getAllScheduleNotifications = async () =>
 export const cancelAllScheduleNotifications = async () =>
   await Notifications.cancelAllScheduledNotificationsAsync();
 
+export const cancelScheduledNotification = async (id: string) =>
+  await Notifications.cancelScheduledNotificationAsync(id);
+
 export const editNotificationDaysToRepeat = async (
   id: string,
   data: ScheduleNotificationType
 ) => {
-  await Notifications.cancelScheduledNotificationAsync(id);
+  await cancelScheduledNotification(id);
   return await scheduleNotification(data);
 };
