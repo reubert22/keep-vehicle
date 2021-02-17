@@ -23,8 +23,11 @@ import { AddEditNotification } from "../../components/AddEditNotification/AddEdi
 import { VehicleType } from "../../utils/SharedTypes";
 import { ScrollView } from "react-native-gesture-handler";
 import { Colors } from "../../utils/Colors";
+import { TouchableNativeFeedback } from "react-native-gesture-handler";
+import { useNavigation } from "@react-navigation/native";
 
 export const List: FC = () => {
+  const navigation = useNavigation();
   const sheetRef = React.useRef(null);
   const [notifications, setNotificationsList] = useState<NotificationRequest[]>(
     []
@@ -219,21 +222,15 @@ export const List: FC = () => {
         onCloseEnd={() => setSelectedVehicle(null)}
         renderHeader={() => <Header />}
       />
-      {/* <View
-        style={{
-          backgroundColor: Colors.tertiaryBlue,
-          height: 60,
-          width: 60,
-          position: "absolute",
-          bottom: 20,
-          right: 20,
-          alignItems: "center",
-          justifyContent: "center",
-          borderRadius: 30,
-        }}
-      >
-        <Text style={{ color: Colors.white, fontSize: 42 }}>+</Text>
-      </View> */}
+      <View style={styles.containerFab}>
+        <TouchableNativeFeedback
+          style={styles.fabBtn}
+          useForeground={true}
+          onPress={() => navigation.navigate("CreateVehicle")}
+        >
+          <Text style={styles.fabBtnText}>+</Text>
+        </TouchableNativeFeedback>
+      </View>
     </View>
   );
 };
@@ -243,4 +240,23 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.primaryBlue,
   },
+  containerFab: {
+    backgroundColor: Colors.quaternaryBlue,
+    height: 60,
+    width: 60,
+    position: "absolute",
+    bottom: 20,
+    right: 20,
+    justifyContent: "center",
+    borderRadius: 30,
+    paddingBottom: 3,
+  },
+  fabBtn: {
+    height: 60,
+    width: 60,
+    borderRadius: 30,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  fabBtnText: { color: Colors.white, fontSize: 30 },
 });

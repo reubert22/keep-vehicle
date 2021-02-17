@@ -8,6 +8,7 @@ import { StatusBar } from "expo-status-bar";
 import { AsyncStorageKeys, storeData, getData } from "./src/utils/AsyncStorage";
 import { MainNavigation } from "./src/screens/MainNavigation";
 import { Welcome } from "./src/screens/Welcome/Welcome";
+import { Colors } from "./src/utils/Colors";
 
 export default function App() {
   const [shouldShowWelcome, setShouldShowWelcome] = useState(true);
@@ -64,5 +65,6 @@ export default function App() {
 const styles = StyleSheet.create({
   safeAreaView: {
     flex: 1,
+    backgroundColor: Colors.primaryBlue,
   },
 });
