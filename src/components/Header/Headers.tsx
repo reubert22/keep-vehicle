@@ -3,6 +3,7 @@ import { View, StyleSheet, Text } from "react-native";
 import { Colors } from "../../utils/Colors";
 import { TouchableNativeFeedback } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
+import { Icon } from "../Icons";
 
 type HeaderPropTypes = {
   mainTitle?: string;
@@ -17,9 +18,13 @@ export const Header: FC<HeaderPropTypes> = ({ mainTitle }) => {
           style={styles.backBtn}
           onPress={() => navigation.goBack()}
         >
-          <Text numberOfLines={1} style={styles.centralHeaderText}>
-            Voltar
-          </Text>
+          <View
+            style={{
+              transform: [{ rotate: "180deg" }],
+            }}
+          >
+            <Icon.Arrow width={20} height={20} />
+          </View>
         </TouchableNativeFeedback>
       </View>
       <View style={styles.containerCentral}>
@@ -42,14 +47,14 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     backgroundColor: Colors.secondaryBlue,
   },
-  sideContainers: { width: "20%", height: "100%", padding: 10 },
+  sideContainers: { width: "15%", height: "100%", padding: 10 },
   backBtn: {
     alignItems: "center",
     justifyContent: "center",
     height: "100%",
   },
   containerCentral: {
-    width: "60%",
+    width: "70%",
     height: "100%",
     alignItems: "center",
     justifyContent: "center",
