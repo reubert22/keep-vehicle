@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from "react";
-import { StyleSheet } from "react-native";
-import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
-import { NavigationContainer } from "@react-navigation/native";
-import * as SplashScreen from "expo-splash-screen";
-import { StatusBar } from "expo-status-bar";
+import React, { useState, useEffect } from 'react';
+import { StyleSheet } from 'react-native';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import { NavigationContainer } from '@react-navigation/native';
+import * as SplashScreen from 'expo-splash-screen';
+import { StatusBar } from 'expo-status-bar';
 
-import { AsyncStorageKeys, storeData, getData } from "./src/utils/AsyncStorage";
-import { MainNavigation } from "./src/screens/MainNavigation";
-import { Welcome } from "./src/screens/Welcome/Welcome";
-import { Colors } from "./src/utils/Colors";
+import { AsyncStorageKeys, storeData, getData } from './src/utils/AsyncStorage';
+import { MainNavigation } from './src/screens/MainNavigation';
+import { Welcome } from './src/screens/Welcome/Welcome';
+import { Colors } from './src/utils/Colors';
 
-export default function App() {
+const App = (): JSX.Element => {
   const [shouldShowWelcome, setShouldShowWelcome] = useState(true);
 
   const getDataAsync = async () => {
@@ -51,16 +51,14 @@ export default function App() {
       <SafeAreaView style={styles.safeAreaView}>
         <NavigationContainer>
           <StatusBar style="auto" />
-          {shouldShowWelcome ? (
-            <Welcome onPress={handleDismissWelcome} />
-          ) : (
-            <MainNavigation />
-          )}
+          {shouldShowWelcome ? <Welcome onPress={handleDismissWelcome} /> : <MainNavigation />}
         </NavigationContainer>
       </SafeAreaView>
     </SafeAreaProvider>
   );
-}
+};
+
+export default App;
 
 const styles = StyleSheet.create({
   safeAreaView: {

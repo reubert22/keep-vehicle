@@ -1,8 +1,8 @@
-import React, { FC } from "react";
-import { StyleSheet, View, Dimensions, Animated, Text } from "react-native";
-import { Colors } from "../../../utils/Colors";
+import React, { FC } from 'react';
+import { StyleSheet, View, Dimensions, Animated, Text } from 'react-native';
+import { Colors } from '../../../utils/Colors';
 
-const { width } = Dimensions.get("window");
+const { width } = Dimensions.get('window');
 const TITLE_HEIGHT = 40;
 
 type MainTitlePropType = {
@@ -39,17 +39,17 @@ export const MainTitle: FC<MainTitlePropType> = ({ scrollX, data }) => {
 
 const styles = StyleSheet.create({
   titleContainer: {
-    position: "absolute",
+    position: 'absolute',
     top: 10,
-    overflow: "hidden",
+    overflow: 'hidden',
     height: TITLE_HEIGHT,
-    alignItems: "center",
+    alignItems: 'center',
   },
   mainTitle: {
     fontSize: TITLE_HEIGHT,
     lineHeight: TITLE_HEIGHT,
-    fontWeight: "bold",
-    textTransform: "uppercase",
+    fontWeight: 'bold',
+    textTransform: 'uppercase',
     color: Colors.primaryWhite,
     letterSpacing: 2,
   },

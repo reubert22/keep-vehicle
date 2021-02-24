@@ -1,6 +1,6 @@
-import React, { FC } from "react";
-import { View, StyleSheet } from "react-native";
-import { Colors } from "../../../utils/Colors";
+import React, { FC } from 'react';
+import { View, StyleSheet } from 'react-native';
+import { Colors } from '../../../utils/Colors';
 
 export const Header: FC = () => (
   <View style={styles.container}>
@@ -11,8 +11,8 @@ export const Header: FC = () => (
 const styles = StyleSheet.create({
   container: {
     height: 25,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   content: {
     width: 30,

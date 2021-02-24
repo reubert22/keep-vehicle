@@ -1,46 +1,35 @@
-import React, { useState, useEffect, FC } from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import {
-  View,
-  StyleSheet,
-  Button,
-  Text,
-  ActivityIndicator,
-} from "react-native";
-import { NotificationRequest } from "expo-notifications";
-import { GridItem } from "../../components/GridItem/GridItem";
-import { vehiclesInfo } from "../../utils/WelcomeInfo";
-import { getData, AsyncStorageKeys, storeData } from "../../utils/AsyncStorage";
+import React, { useState, useEffect, FC } from 'react';
+import { View, StyleSheet, Button, Text, ActivityIndicator } from 'react-native';
+import { ScrollView, TouchableNativeFeedback } from 'react-native-gesture-handler';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { NotificationRequest } from 'expo-notifications';
+import { useNavigation } from '@react-navigation/native';
+import BottomSheet from 'reanimated-bottom-sheet';
+import { GridItem } from '../../components/GridItem/GridItem';
+import { vehiclesInfo } from '../../utils/WelcomeInfo';
+import { getData, AsyncStorageKeys, storeData } from '../../utils/AsyncStorage';
 import {
   scheduleNotification,
   getAllScheduleNotifications,
   editNotificationDaysToRepeat,
   cancelScheduledNotification,
-} from "../../utils/Notification";
-import BottomSheet from "reanimated-bottom-sheet";
-import { Header } from "../../components/BottomSheet/Header/Header";
-import { AddEditNotification } from "../../components/AddEditNotification/AddEditNotification";
-import { VehicleType } from "../../utils/SharedTypes";
-import { ScrollView } from "react-native-gesture-handler";
-import { Colors } from "../../utils/Colors";
-import { TouchableNativeFeedback } from "react-native-gesture-handler";
-import { useNavigation } from "@react-navigation/native";
+} from '../../utils/Notification';
+import { Header } from '../../components/BottomSheet/Header/Header';
+import { AddEditNotification } from '../../components/AddEditNotification/AddEditNotification';
+import { VehicleType } from '../../utils/SharedTypes';
+import { Colors } from '../../utils/Colors';
 
 export const List: FC = () => {
   const navigation = useNavigation();
   const sheetRef = React.useRef(null);
-  const [notifications, setNotificationsList] = useState<NotificationRequest[]>(
-    []
-  );
+  const [notifications, setNotificationsList] = useState<NotificationRequest[]>([]);
   const [vehicles, setVehicles] = useState<VehicleType[]>([]);
-  const [selectedVehicle, setSelectedVehicle] = useState<VehicleType | null>(
-    null
-  );
+  const [selectedVehicle, setSelectedVehicle] = useState<VehicleType | null>(null);
   const [loading, setLoading] = useState(false);
 
-  //@ts-ignore
+  // @ts-ignore
   const handleOpenBottomSheet = () => sheetRef?.current?.snapTo(320);
-  //@ts-ignore
+  // @ts-ignore
   const handleCloseBottomSheet = () => sheetRef?.current?.snapTo(0);
 
   const handleCloseBottomSheetAndClearSelectedVehicle = () => {
@@ -56,11 +45,11 @@ export const List: FC = () => {
 
   const getVehicles = async () => {
     const response = await getData(AsyncStorageKeys.VEHICLE_LIST);
-    setVehicles(response ? response : []);
+    setVehicles(response || []);
     setLoading(false);
   };
 
-  const addVehiclesMock = async () => {
+  const addVehiclesMock = () => {
     setLoading(true);
     AsyncStorage.removeItem(AsyncStorageKeys.VEHICLE_LIST);
     storeData(AsyncStorageKeys.VEHICLE_LIST, vehiclesInfo);
@@ -79,7 +68,7 @@ export const List: FC = () => {
   const handleAddNotificationForVehicle = (
     vehicle: VehicleType,
     notification: string,
-    days: number
+    days: number,
   ) => {
     const newVehicles = vehicles.map((item: VehicleType) => {
       if (vehicle.id === item.id) {
@@ -120,26 +109,20 @@ export const List: FC = () => {
     }
   };
 
-  const editScheduledNotification = async (
-    vehicle: VehicleType,
-    days: number
-  ) => {
+  const editScheduledNotification = async (vehicle: VehicleType, days: number) => {
     if (vehicle.notification) {
-      const identifier = await editNotificationDaysToRepeat(
-        vehicle.notification,
-        {
-          content: {
-            title: `🛠️ ${vehicle.title} Alerta de manutenção periódica`,
-            body: "Não se esqueça de verificar o óleo do veículo.",
-            data: { id: vehicle.id, repeatsIn: days },
-          },
-          trigger: {
-            seconds: 86400 * days,
-            repeats: true,
-            channelId: "keep-vehicle-notifications",
-          },
-        }
-      );
+      const identifier = await editNotificationDaysToRepeat(vehicle.notification, {
+        content: {
+          title: `🛠️ ${vehicle.title} Alerta de manutenção periódica`,
+          body: 'Não se esqueça de verificar o óleo do veículo.',
+          data: { id: vehicle.id, repeatsIn: days },
+        },
+        trigger: {
+          seconds: 86400 * days,
+          repeats: true,
+          channelId: 'keep-vehicle-notifications',
+        },
+      });
       handleAddNotificationForVehicle(vehicle, identifier, days);
       get();
 
@@ -147,10 +130,7 @@ export const List: FC = () => {
     }
   };
 
-  const schedulePushNotification = async (
-    vehicle: VehicleType,
-    days: number
-  ) => {
+  const schedulePushNotification = async (vehicle: VehicleType, days: number) => {
     const response = await getAllScheduleNotifications();
     setNotificationsList(response);
     const x = response.filter((item) => item.content.data.id === vehicle.id);
@@ -158,13 +138,13 @@ export const List: FC = () => {
       const identifier = await scheduleNotification({
         content: {
           title: `🛠️ ${vehicle.title} Alerta de manutenção periódica`,
-          body: "Não se esqueça de verificar o óleo do veículo.",
+          body: 'Não se esqueça de verificar o óleo do veículo.',
           data: { id: vehicle.id, repeatsIn: days },
         },
         trigger: {
           seconds: 86400 * days,
           repeats: true,
-          channelId: "keep-vehicle-notifications",
+          channelId: 'keep-vehicle-notifications',
         },
       });
       handleAddNotificationForVehicle(vehicle, identifier, days);
@@ -190,14 +170,11 @@ export const List: FC = () => {
         {loading && <ActivityIndicator size="large" color="#00ff00" />}
 
         <View style={{ marginTop: 50 }}>
-          <Text style={{ color: Colors.white, textAlign: "center" }}>
-            Notificacoes na fila
-          </Text>
+          <Text style={{ color: Colors.white, textAlign: 'center' }}>Notificacoes na fila</Text>
           {notifications.map((item) => (
             <View key={item.identifier}>
               <Text style={{ color: Colors.white }}>
-                {item.content.title} - Repete a cada{" "}
-                {item.content.data.repeatsIn} dia(s)
+                {item.content.title} - Repete a cada {item.content.data.repeatsIn} dia(s)
               </Text>
             </View>
           ))}
@@ -225,9 +202,8 @@ export const List: FC = () => {
       <View style={styles.containerFab}>
         <TouchableNativeFeedback
           style={styles.fabBtn}
-          useForeground={true}
-          onPress={() => navigation.navigate("CreateVehicle")}
-        >
+          useForeground
+          onPress={() => navigation.navigate('CreateVehicle')}>
           <Text style={styles.fabBtnText}>+</Text>
         </TouchableNativeFeedback>
       </View>
@@ -244,10 +220,10 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.quaternaryBlue,
     height: 60,
     width: 60,
-    position: "absolute",
+    position: 'absolute',
     bottom: 20,
     right: 20,
-    justifyContent: "center",
+    justifyContent: 'center',
     borderRadius: 30,
     paddingBottom: 3,
   },
@@ -255,8 +231,8 @@ const styles = StyleSheet.create({
     height: 60,
     width: 60,
     borderRadius: 30,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   fabBtnText: { color: Colors.white, fontSize: 30 },
 });

@@ -1,6 +1,6 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export const storeData = async (key: string, value: string | object) => {
+export const storeData = async (key: string, value: string | unknown) => {
   try {
     const data = JSON.stringify(value);
     await AsyncStorage.setItem(key, data);
@@ -12,6 +12,7 @@ export const storeData = async (key: string, value: string | object) => {
 export const getData = async (key: string) => {
   try {
     const response = await AsyncStorage.getItem(key);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return response ? JSON.parse(response) : null;
   } catch (e) {
     return null;
@@ -24,6 +25,6 @@ export const clearData = async () => {
 };
 
 export const AsyncStorageKeys = {
-  WELCOME: "@welcome",
-  VEHICLE_LIST: "@vehicle-list",
+  WELCOME: '@welcome',
+  VEHICLE_LIST: '@vehicle-list',
 };
