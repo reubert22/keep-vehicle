@@ -1,8 +1,8 @@
-import React, { FC } from "react";
-import { createStackNavigator } from "@react-navigation/stack";
+import React, { FC } from 'react';
+import { createStackNavigator } from '@react-navigation/stack';
 
-import { Home } from "./Home/Home";
-import { CreateVehicle } from "./CreateVehicle/CreateVehicle";
+import { Home } from './Home/Home';
+import { CreateVehicle } from './CreateVehicle/CreateVehicle';
 
 const { Navigator, Screen } = createStackNavigator();
 

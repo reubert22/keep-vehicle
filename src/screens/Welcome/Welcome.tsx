@@ -1,14 +1,14 @@
-import React, { useRef, FC } from "react";
-import { StyleSheet, View, Dimensions, Animated } from "react-native";
+import React, { useRef, FC } from 'react';
+import { StyleSheet, View, Dimensions, Animated } from 'react-native';
 
-import { BackgroundCircle } from "../../components/Welcome/BackgroundCircle/BackgroundCircle";
-import { Indicator } from "../../components/Welcome/Indicator/Indicator";
-import { MainTitle } from "../../components/Welcome/MainTitle/MainTitle";
-import { Item } from "../../components/Welcome/Item/Item";
-import { welcomeInfo } from "../../utils/WelcomeInfo";
-import { Colors } from "../../utils/Colors";
+import { BackgroundCircle } from '../../components/Welcome/BackgroundCircle/BackgroundCircle';
+import { Indicator } from '../../components/Welcome/Indicator/Indicator';
+import { MainTitle } from '../../components/Welcome/MainTitle/MainTitle';
+import { Item } from '../../components/Welcome/Item/Item';
+import { welcomeInfo } from '../../utils/WelcomeInfo';
+import { Colors } from '../../utils/Colors';
 
-const { width, height } = Dimensions.get("window");
+const { width, height } = Dimensions.get('window');
 
 type WelcomePropType = {
   onPress: () => void;
@@ -21,7 +21,7 @@ export const Welcome: FC<WelcomePropType> = ({ onPress }) => {
     <View style={styles.container}>
       <BackgroundCircle scrollX={scrollX} data={welcomeInfo} />
       <Animated.FlatList
-        keyExtractor={(item: string) => item.key}
+        keyExtractor={({ key }: { key: string }) => key}
         pagingEnabled
         showsHorizontalScrollIndicator={false}
         horizontal
@@ -29,10 +29,9 @@ export const Welcome: FC<WelcomePropType> = ({ onPress }) => {
         renderItem={({ item, index }) => (
           <Item onPress={onPress} item={item} index={index} scrollX={scrollX} />
         )}
-        onScroll={Animated.event(
-          [{ nativeEvent: { contentOffset: { x: scrollX } } }],
-          { useNativeDriver: true }
-        )}
+        onScroll={Animated.event([{ nativeEvent: { contentOffset: { x: scrollX } } }], {
+          useNativeDriver: true,
+        })}
         scrollEventThrottle={16}
       />
       <Indicator scrollX={scrollX} data={welcomeInfo} />
@@ -48,8 +47,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.primaryBlue,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
     height,
     width,
   },

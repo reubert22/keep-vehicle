@@ -1,14 +1,8 @@
-import React, { FC } from "react";
-import {
-  StyleSheet,
-  Text,
-  Dimensions,
-  Animated,
-  TouchableOpacity,
-} from "react-native";
-import { Colors } from "../../../utils/Colors";
+import React, { FC } from 'react';
+import { StyleSheet, Text, Dimensions, Animated, TouchableOpacity } from 'react-native';
+import { Colors } from '../../../utils/Colors';
 
-const { width } = Dimensions.get("window");
+const { width } = Dimensions.get('window');
 
 type InitButtonPropsType = {
   onPress: () => void;
@@ -16,11 +10,7 @@ type InitButtonPropsType = {
   scrollX: Animated.Value;
 };
 
-export const InitButton: FC<InitButtonPropsType> = ({
-  onPress,
-  index,
-  scrollX,
-}) => {
+export const InitButton: FC<InitButtonPropsType> = ({ onPress, index, scrollX }) => {
   const inputRange = [(index - 1) * width, index * width, (index + 1) * width];
 
   const translateX = scrollX.interpolate({
@@ -34,9 +24,7 @@ export const InitButton: FC<InitButtonPropsType> = ({
   });
 
   return (
-    <Animated.View
-      style={[styles.buttonContainer, { opacity, transform: [{ translateX }] }]}
-    >
+    <Animated.View style={[styles.buttonContainer, { opacity, transform: [{ translateX }] }]}>
       <TouchableOpacity onPress={onPress} style={styles.button}>
         <Text style={styles.textButton}>Iniciar</Text>
       </TouchableOpacity>
@@ -46,7 +34,7 @@ export const InitButton: FC<InitButtonPropsType> = ({
 
 const styles = StyleSheet.create({
   buttonContainer: {
-    position: "absolute",
+    position: 'absolute',
     bottom: 20,
     height: 42,
     width: width * 0.8,
@@ -54,15 +42,15 @@ const styles = StyleSheet.create({
   button: {
     borderRadius: 25,
     backgroundColor: Colors.tertiaryBlue,
-    height: "100%",
-    width: "100%",
-    alignItems: "center",
-    justifyContent: "center",
+    height: '100%',
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   textButton: {
     fontSize: 17,
     letterSpacing: 0.5,
-    fontWeight: "400",
+    fontWeight: '400',
     color: Colors.white,
   },
 });

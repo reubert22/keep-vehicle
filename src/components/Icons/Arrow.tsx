@@ -1,13 +1,9 @@
-import React, { FC } from "react";
-import { IconProps } from "./index";
-import { Svg, G, Path } from "react-native-svg";
-import { Colors } from "../../utils/Colors";
+import React, { FC } from 'react';
+import { Svg, G, Path } from 'react-native-svg';
+import { IconProps } from './props';
+import { Colors } from '../../utils/Colors';
 
-export const Arrow: FC<IconProps> = ({
-  width = 100,
-  height = 100,
-  color = Colors.white,
-}) => (
+export const Arrow: FC<IconProps> = ({ width = 100, height = 100, color = Colors.white }) => (
   <Svg viewBox="0 0 129 129" width={width} height={height}>
     <G fill={color}>
       <G>

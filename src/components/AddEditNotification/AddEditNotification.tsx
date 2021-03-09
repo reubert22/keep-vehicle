@@ -1,10 +1,10 @@
-import React, { FC, useState, useEffect } from "react";
-import { View, Text, TextInput, StyleSheet, Dimensions } from "react-native";
-import { TouchableNativeFeedback } from "react-native-gesture-handler";
-import { VehicleType } from "../../utils/SharedTypes";
-import { Colors } from "../../utils/Colors";
+import React, { FC, useState, useEffect } from 'react';
+import { View, Text, TextInput, StyleSheet, Dimensions } from 'react-native';
+import { TouchableNativeFeedback } from 'react-native-gesture-handler';
+import { VehicleType } from '../../utils/SharedTypes';
+import { Colors } from '../../utils/Colors';
 
-const { width } = Dimensions.get("window");
+const { width } = Dimensions.get('window');
 
 type AddEditNotificationPropType = {
   vehicle: VehicleType | null;
@@ -34,7 +34,7 @@ export const AddEditNotification: FC<AddEditNotificationPropType> = ({
         <View style={styles.containerTitleAndDelete}>
           <View style={styles.containerTitle}>
             <Text style={styles.title}>
-              {ntfDays !== 0 ? "Editar notificação" : "Adicionar notificação"}
+              {ntfDays !== 0 ? 'Editar notificação' : 'Adicionar notificação'}
             </Text>
             <Text style={styles.vehicleTitle}>{vehicle.title}</Text>
           </View>
@@ -43,8 +43,7 @@ export const AddEditNotification: FC<AddEditNotificationPropType> = ({
               <TouchableNativeFeedback
                 style={styles.deleteBtn}
                 disabled={days === 0}
-                onPress={() => onPressDelete(vehicle)}
-              >
+                onPress={() => onPressDelete(vehicle)}>
                 <Text style={styles.deleteBtnText}>Excluir</Text>
               </TouchableNativeFeedback>
             </View>
@@ -58,8 +57,7 @@ export const AddEditNotification: FC<AddEditNotificationPropType> = ({
             <TouchableNativeFeedback
               style={styles.removeDaysBtn}
               disabled={days === 0}
-              onPress={removeDay}
-            >
+              onPress={removeDay}>
               <Text style={styles.removeAddText}>-</Text>
             </TouchableNativeFeedback>
             <View style={styles.containerInputDays}>
@@ -81,8 +79,7 @@ export const AddEditNotification: FC<AddEditNotificationPropType> = ({
           <TouchableNativeFeedback
             style={styles.saveBtn}
             disabled={days === 0}
-            onPress={() => onPressSaveOrEdit(vehicle, days)}
-          >
+            onPress={() => onPressSaveOrEdit(vehicle, days)}>
             <Text style={styles.saveText}>Salvar</Text>
           </TouchableNativeFeedback>
         </View>
@@ -99,22 +96,22 @@ const styles = StyleSheet.create({
     width,
   },
   containerTitleAndDelete: {
-    width: "100%",
-    flexDirection: "row",
+    width: '100%',
+    flexDirection: 'row',
   },
-  containerTitle: { width: "80%" },
+  containerTitle: { width: '80%' },
   title: { fontSize: 22, color: Colors.tertiaryBlue },
   vehicleTitle: {
     color: Colors.primaryWhite,
     fontSize: 16,
     marginTop: 5,
   },
-  containerDeleteBtn: { width: "20%" },
+  containerDeleteBtn: { width: '20%' },
   deleteBtn: {
     borderRadius: 10,
     backgroundColor: Colors.tertiaryBlue,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
     height: 30,
   },
   deleteBtnText: { fontSize: 14, color: Colors.quaternaryBlue },
@@ -125,31 +122,31 @@ const styles = StyleSheet.create({
   containerSelect: {
     marginTop: 10,
     borderRadius: 15,
-    alignItems: "center",
+    alignItems: 'center',
     height: 40,
-    flexDirection: "row",
+    flexDirection: 'row',
   },
   removeDaysBtn: {
     borderTopLeftRadius: 10,
     borderBottomLeftRadius: 10,
     backgroundColor: Colors.quaternaryBlue,
     width: 64,
-    alignItems: "center",
-    justifyContent: "center",
-    height: "100%",
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: '100%',
   },
   containerInputDays: {
-    width: "60%",
-    alignItems: "center",
-    justifyContent: "center",
+    width: '60%',
+    alignItems: 'center',
+    justifyContent: 'center',
     borderWidth: 1,
     borderColor: Colors.quaternaryBlue,
-    height: "100%",
+    height: '100%',
   },
   inputDays: {
     height: 40,
-    width: "100%",
-    textAlign: "center",
+    width: '100%',
+    textAlign: 'center',
     color: Colors.white,
   },
   addDaysBtn: {
@@ -157,17 +154,17 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 10,
     backgroundColor: Colors.quaternaryBlue,
     width: 64,
-    alignItems: "center",
-    justifyContent: "center",
-    height: "100%",
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: '100%',
   },
   containerSaveBtn: { marginTop: 25, height: 40 },
   saveBtn: {
     borderRadius: 10,
     backgroundColor: Colors.quaternaryBlue,
-    alignItems: "center",
-    justifyContent: "center",
-    height: "100%",
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: '100%',
   },
   saveText: { fontSize: 16, color: Colors.tertiaryBlue },
   removeAddText: { fontSize: 22, color: Colors.tertiaryBlue },
