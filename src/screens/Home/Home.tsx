@@ -9,7 +9,7 @@ const Stack = createMaterialTopTabNavigator();
 
 export const Home: FC = () => (
   <Stack.Navigator
-    initialRouteName="One"
+    initialRouteName="List"
     tabBarOptions={{
       activeTintColor: Colors.tertiaryBlue,
       inactiveTintColor: Colors.secondaryWhite,

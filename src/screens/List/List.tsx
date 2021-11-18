@@ -25,6 +25,7 @@ import { ScrollView } from "react-native-gesture-handler";
 import { Colors } from "../../utils/Colors";
 import { TouchableNativeFeedback } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
+import { RouteNames } from "../../utils/RouteNames";
 
 export const List: FC = () => {
   const navigation = useNavigation();
@@ -55,15 +56,21 @@ export const List: FC = () => {
   }, [selectedVehicle]);
 
   const getVehicles = async () => {
+    setLoading(true);
     const response = await getData(AsyncStorageKeys.VEHICLE_LIST);
     setVehicles(response ? response : []);
     setLoading(false);
   };
 
-  const addVehiclesMock = async () => {
-    setLoading(true);
+  const removeVehiclesMock = () => {
+    AsyncStorage.removeItem(AsyncStorageKeys.VEHICLE_LIST);
+    getVehicles();
+  };
+
+  const addVehiclesMock = () => {
     AsyncStorage.removeItem(AsyncStorageKeys.VEHICLE_LIST);
     storeData(AsyncStorageKeys.VEHICLE_LIST, vehiclesInfo);
+    getVehicles();
   };
 
   const get = async () => {
@@ -72,9 +79,8 @@ export const List: FC = () => {
   };
 
   useEffect(() => {
-    getVehicles();
     get();
-  }, [loading]);
+  }, []);
 
   const handleAddNotificationForVehicle = (
     vehicle: VehicleType,
@@ -178,6 +184,7 @@ export const List: FC = () => {
     <View style={styles.container}>
       <ScrollView>
         <Button title="Add vehicles mock to async" onPress={addVehiclesMock} />
+        <Button title="Remove all vehicles" onPress={removeVehiclesMock} />
         {vehicles.map((item: VehicleType) => (
           <GridItem
             key={`vehicle-${item.title}`}
@@ -222,14 +229,19 @@ export const List: FC = () => {
         onCloseEnd={() => setSelectedVehicle(null)}
         renderHeader={() => <Header />}
       />
-      <View style={styles.containerFab}>
-        <TouchableNativeFeedback
-          style={styles.fabBtn}
-          useForeground={true}
-          onPress={() => navigation.navigate("CreateVehicle")}
-        >
-          <Text style={styles.fabBtnText}>+</Text>
-        </TouchableNativeFeedback>
+      <View style={styles.containerButton}>
+        {vehicles.length === 0 && (
+          <Text style={styles.insertFlag}>Cadastre o primeiro veículo</Text>
+        )}
+        <View style={styles.floatActionButton}>
+          <TouchableNativeFeedback
+            style={styles.fabBtn}
+            useForeground
+            onPress={() => navigation.navigate(RouteNames.CREATE_VEHICLE)}
+          >
+            <Text style={styles.fabBtnText}>+</Text>
+          </TouchableNativeFeedback>
+        </View>
       </View>
     </View>
   );
@@ -240,13 +252,22 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.primaryBlue,
   },
-  containerFab: {
-    backgroundColor: Colors.quaternaryBlue,
+  containerButton: {
     height: 60,
-    width: 60,
     position: "absolute",
     bottom: 20,
     right: 20,
+    justifyContent: "flex-end",
+    alignItems: "center",
+    flexDirection: "row",
+  },
+  insertFlag: {
+    color: Colors.primaryWhite,
+    marginRight: 10,
+    letterSpacing: 0.5,
+  },
+  floatActionButton: {
+    backgroundColor: Colors.quaternaryBlue,
     justifyContent: "center",
     borderRadius: 30,
     paddingBottom: 3,
