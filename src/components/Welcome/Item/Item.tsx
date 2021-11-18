@@ -1,9 +1,9 @@
-import React, { FC } from "react";
-import { StyleSheet, View, Dimensions, Animated } from "react-native";
-import { InitButton } from "../InitButton/InitButton";
-import { Colors } from "../../../utils/Colors";
+import React, { FC } from 'react';
+import { StyleSheet, View, Dimensions, Animated } from 'react-native';
+import { InitButton } from '../InitButton/InitButton';
+import { Colors } from '../../../utils/Colors';
 
-const { width, height } = Dimensions.get("window");
+const { width, height } = Dimensions.get('window');
 
 type ItemPropsType = {
   onPress: () => void;
@@ -61,25 +61,15 @@ export const Item: FC<ItemPropsType> = ({ onPress, item, index, scrollX }) => {
       </View>
       <View style={styles.containerTexts}>
         <Animated.Text
-          style={[
-            styles.title,
-            { opacity, transform: [{ translateX: translateXTitle }] },
-          ]}
-        >
+          style={[styles.title, { opacity, transform: [{ translateX: translateXTitle }] }]}>
           {item.title}
         </Animated.Text>
         <Animated.Text
-          style={[
-            styles.description,
-            { opacity, transform: [{ translateX: translateXDesc }] },
-          ]}
-        >
+          style={[styles.description, { opacity, transform: [{ translateX: translateXDesc }] }]}>
           {item.description}
         </Animated.Text>
       </View>
-      {index === 3 && (
-        <InitButton onPress={onPress} index={index} scrollX={scrollX} />
-      )}
+      {index === 3 && <InitButton onPress={onPress} index={index} scrollX={scrollX} />}
     </View>
   );
 };
@@ -87,13 +77,13 @@ export const Item: FC<ItemPropsType> = ({ onPress, item, index, scrollX }) => {
 const styles = StyleSheet.create({
   containerItem: {
     width,
-    alignItems: "center",
+    alignItems: 'center',
   },
   containerImage: {
     width,
     height: height / 2,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   image: {
     width: width * 0.8,
@@ -106,15 +96,15 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 22,
-    textTransform: "uppercase",
-    fontWeight: "bold",
+    textTransform: 'uppercase',
+    fontWeight: 'bold',
     color: Colors.primaryWhite,
     letterSpacing: 1.5,
     marginBottom: 10,
   },
   description: {
     fontSize: 19,
-    fontWeight: "400",
+    fontWeight: '400',
     letterSpacing: 1.5,
     color: Colors.secondaryWhite,
   },

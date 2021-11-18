@@ -1,4 +1,4 @@
-import * as Notifications from "expo-notifications";
+import * as Notifications from 'expo-notifications';
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -33,10 +33,7 @@ export const cancelAllScheduleNotifications = async () =>
 export const cancelScheduledNotification = async (id: string) =>
   await Notifications.cancelScheduledNotificationAsync(id);
 
-export const editNotificationDaysToRepeat = async (
-  id: string,
-  data: ScheduleNotificationType
-) => {
+export const editNotificationDaysToRepeat = async (id: string, data: ScheduleNotificationType) => {
   await cancelScheduledNotification(id);
   return await scheduleNotification(data);
 };

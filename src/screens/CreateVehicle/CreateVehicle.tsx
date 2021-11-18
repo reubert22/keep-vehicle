@@ -1,16 +1,16 @@
-import React, { FC, useEffect } from "react";
-import { View, StyleSheet, Dimensions, Alert, Button } from "react-native";
-import { useForm } from "react-hook-form";
-import * as yup from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { Colors } from "../../utils/Colors";
-import { Header } from "../../components/Header/Headers";
-import { TextField } from "../../components/Shared/TextField/TextField";
+import React, { FC, useEffect } from 'react';
+import { View, StyleSheet, Dimensions, Alert, Button } from 'react-native';
+import { useForm } from 'react-hook-form';
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { Colors } from '../../utils/Colors';
+import { Header } from '../../components/Header/Headers';
+import { TextField } from '../../components/Shared/TextField/TextField';
 
-const { width } = Dimensions.get("window");
+const { width } = Dimensions.get('window');
 
 const fieldsValidationSchema = yup.object().shape({
-  Nome: yup.string().required("O nome não pode ser vazio"),
+  Nome: yup.string().required('O nome não pode ser vazio'),
 });
 
 export const CreateVehicle: FC = () => {
@@ -24,7 +24,7 @@ export const CreateVehicle: FC = () => {
   });
 
   useEffect(() => {
-    register("Nome");
+    register('Nome');
   }, [register]);
   const onSubmit = (data: { Nome: string }) => Alert.alert(data.Nome);
 
@@ -36,27 +36,27 @@ export const CreateVehicle: FC = () => {
           <TextField
             label="Nome"
             error={errors?.Nome}
-            onChangeText={(text: string) => setValue("Nome", text)}
+            onChangeText={(text: string) => setValue('Nome', text)}
             inputProps={{
-              placeholder: "Nome",
+              placeholder: 'Nome',
               placeholderTextColor: Colors.primaryWhite,
             }}
           />
           <TextField
             label="Ano"
-            onChangeText={(text: string) => setValue("Ano", text)}
+            onChangeText={(text: string) => setValue('Ano', text)}
             inputProps={{
-              keyboardType: "numeric",
-              placeholder: "Ano",
+              keyboardType: 'numeric',
+              placeholder: 'Ano',
               placeholderTextColor: Colors.primaryWhite,
               maxLength: 4,
             }}
           />
           <TextField
             label="Combustível"
-            onChangeText={(text: string) => setValue("Combustível", text)}
+            onChangeText={(text: string) => setValue('Combustível', text)}
             inputProps={{
-              placeholder: "Combustível",
+              placeholder: 'Combustível',
               placeholderTextColor: Colors.primaryWhite,
             }}
           />
@@ -73,18 +73,18 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.primaryBlue,
   },
   constainerContent: {
-    position: "absolute",
+    position: 'absolute',
     top: 50,
     paddingVertical: 10,
-    height: "100%",
+    height: '100%',
     width,
     backgroundColor: Colors.primaryBlue,
   },
   containerInput: {
     marginTop: 10,
-    width: "100%",
-    alignItems: "center",
-    justifyContent: "center",
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
     borderWidth: 1,
     borderRadius: 30,
     borderColor: Colors.quaternaryBlue,
@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     borderRadius: 30,
     height: 40,
-    width: "100%",
+    width: '100%',
     color: Colors.white,
   },
 });

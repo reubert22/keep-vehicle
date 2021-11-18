@@ -1,8 +1,8 @@
-import React, { FC } from "react";
-import { StyleSheet, View, Dimensions, Animated } from "react-native";
-import { Colors } from "../../../utils/Colors";
+import React, { FC } from 'react';
+import { StyleSheet, View, Dimensions, Animated } from 'react-native';
+import { Colors } from '../../../utils/Colors';
 
-const { width } = Dimensions.get("window");
+const { width } = Dimensions.get('window');
 const IndicatorWidth = 25;
 const IndicatorHeight = 25;
 
@@ -26,17 +26,10 @@ export const Indicator: FC<IndicatorPropsType> = ({ scrollX, data }) => {
 
   return (
     <View style={styles.indicatorContainer}>
-      <Animated.View
-        style={[styles.outsideIndicator, { transform: [{ translateX }] }]}
-      />
+      <Animated.View style={[styles.outsideIndicator, { transform: [{ translateX }] }]} />
       {data.map(({ indicatorColor, key }) => (
-        <Animated.View
-          key={`${key}-circle-indicator`}
-          style={styles.containerIndicator}
-        >
-          <Animated.View
-            style={[styles.indicator, { backgroundColor: indicatorColor }]}
-          />
+        <Animated.View key={`${key}-circle-indicator`} style={styles.containerIndicator}>
+          <Animated.View style={[styles.indicator, { backgroundColor: indicatorColor }]} />
         </Animated.View>
       ))}
     </View>
@@ -46,25 +39,25 @@ export const Indicator: FC<IndicatorPropsType> = ({ scrollX, data }) => {
 const styles = StyleSheet.create({
   indicatorContainer: {
     height: 50,
-    flexDirection: "row",
+    flexDirection: 'row',
     bottom: 0,
   },
   outsideIndicator: {
     borderWidth: 1,
-    position: "absolute",
+    position: 'absolute',
     width: IndicatorWidth,
     borderRadius: IndicatorWidth / 2,
     height: IndicatorHeight,
     marginHorizontal: 5,
     borderColor: Colors.secondaryWhite,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   containerIndicator: {
     width: IndicatorWidth,
     height: IndicatorHeight,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
     marginHorizontal: 5,
     borderColor: Colors.grey,
   },
