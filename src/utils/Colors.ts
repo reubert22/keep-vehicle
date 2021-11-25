@@ -7,4 +7,5 @@ export const Colors = {
   secondaryWhite: 'rgba(241, 241, 242, 0.63)',
   grey: '#30383d',
   white: '#FFF',
+  danger: '#eb4034',
 };
